@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة خدمة | وين الخدمة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../الاساسية/index.html" class="logo">
+      <span class="logo-icon">
+        <img src="Logo.png" alt="">
+      </span>
+      
+    </a>
+
+  <nav class="main-nav" aria-label="التنقل الرئيسي">
+      <a href="../الاساسية/index.html">الرئيسية</a>
+      <a href="../الاساسية/explore.html">استكشاف الخدمات</a>
+      <a href="../الاساسية/assistant.html">المساعد الذكي</a>
+      <a href="step0.html" class="active">خدماتي</a>
+      <a href="../البلاغات/index.html">بلاغاتي</a> 
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="الإشعارات">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#4B5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.7 21a2 2 0 01-3.4 0" stroke="#4B5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="icon-btn" aria-label="المفضلة">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21s-7-4.5-9.6-9C.6 8.4 2 5 5.3 5c1.9 0 3.3 1 4.7 2.8C11.4 6 12.8 5 14.7 5 18 5 19.4 8.4 21.6 12 19 16.5 12 21 12 21z" stroke="#4B5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <a href="../الاساسية/profile.html" class="user-avatar">
+        <img src="logo2.png" alt="صورة المستخدم">
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+  <form class="form-card" id="serviceForm">
+    <a href="#" class="close-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      إلغاء وإغلاق
+    </a>
+
+    <div class="form-title">
+      <h1>إضافة خدمة أساسية جديدة في قطاع غزة</h1>
+      <p>ساهم في توجيه الناس للمراكز المفتوحة والمتوفرة لمساعدتهم في تلبية احتياجاتهم اليومية</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step done">
+        <span class="step-circle">✓</span>
+        <span class="step-label">المعلومات الأساسية</span>
+      </li>
+      <li class="step done">
+        <span class="step-circle">✓</span>
+        <span class="step-label">الموقع والعنوان</span>
+      </li>
+      <li class="step done">
+        <span class="step-circle">✓</span>
+        <span class="step-label">معلومات التشغيل</span>
+      </li>
+      <li class="step done">
+        <span class="step-circle">✓</span>
+        <span class="step-label">الصور والمستندات</span>
+      </li>
+      <li class="step active">
+        <span class="step-circle">5</span>
+        <span class="step-label">المراجعة والإرسال</span>
+      </li>
+    </ol>
+
+    <div class="review-card">
+      <div class="review-header">
+        <span class="check-icon">✓</span>
+        مراجعة وتأكيد بيانات الخدمة قبل النشر الميداني
+      </div>
+
+      <div class="review-columns">
+        <div class="review-col">
+          <p class="review-row"><span class="review-label">اسم الخدمة:</span> <span class="review-value" id="rvName">—</span></p>
+          <p class="review-row"><span class="review-label">التصنيف الأساسي:</span> <span class="review-value" id="rvCategory">—</span></p>
+          <p class="review-row"><span class="review-label">رقم التواصل:</span> <span class="review-value" id="rvPhone">—</span></p>
+          <p class="review-row"><span class="review-label">الحالة الحالية:</span> <span class="review-value" id="rvStatus">—</span></p>
+          <p class="review-row"><span class="review-label">أيام العمل:</span> <span class="review-value" id="rvDays">—</span></p>
+          <p class="review-row"><span class="review-label">الأوصاف والقدرة:</span> <span class="review-value" id="rvDesc">—</span></p>
+        </div>
+        <div class="review-col">
+          <p class="review-row"><span class="review-label">المحافظة:</span> <span class="review-value" id="rvGov">—</span></p>
+          <p class="review-row"><span class="review-label">المدينة:</span> <span class="review-value" id="rvCity">—</span></p>
+          <p class="review-row"><span class="review-label">العنوان بالتفصيل:</span> <span class="review-value" id="rvAddress">—</span></p>
+          <p class="review-row"><span class="review-label">الموقع الجغرافي (GPS):</span> <span class="review-value" id="rvGeo">لم يُحدَّد</span></p>
+          <p class="review-row"><span class="review-label">ساعات العمل:</span> <span class="review-value" id="rvHours">—</span></p>
+        </div>
+      </div>
+
+      <div class="upload-list" id="rvPhotosPreview" style="margin-top:14px;display:flex;flex-wrap:wrap;gap:10px;"></div>
+
+      <div class="review-links">
+        <a href="step0.html">
+          تعديل المعلومات الأساسية
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="step.html">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          تعديل العنوان وأوقات التشغيل
+        </a>
+      </div>
+
+      <hr class="review-divider">
+
+      <div class="review-meta">
+        <div class="review-meta-items">
+          <span>المستندات الداعمة المرفقة: <strong id="rvDocsCount">0 مستندات</strong></span>
+          <span>الصور المرفقة: <strong id="rvPhotosCount">0 صور</strong></span>
+        </div>
+        <a href="step3.html">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          إدارة المرفقات
+        </a>
+      </div>
+    </div>
+
+    <label class="confirm-box">
+      <input type="checkbox" id="confirmCheck" required>
+      أتعهد وأقر بصحة المعلومات المدخلة حول عمل المرفق، وأتحمل المسؤولية الأخلاقية والوطنية تجاه الأهالي وتحديث البيانات فور حدوث أي تغيير ميداني.
+    </label>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        تقديم الخدمة للمراجعة والنشر
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button type="button" class="btn btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        السابق
+      </button>
+    </div>
+  </form>
+
+
+</main>
+
+  <script src="../auth.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الملف الشخصي | وين الخدمة</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="brand"><span class="brand-text"><img src="Logo.png" alt=""></span></div>
+    <nav class="main-nav" aria-label="التنقل الرئيسي">
+    <a href="index.html">الرئيسية</a>
+      
+      <a href="explore.html">استكشاف الخدمات</a>
+      <a href="assistant.html">المساعد الذكي</a>
+      <a href="../step/step0.html">خدماتي</a>
+      <a href="../البلاغات/index.html">بلاغاتي</a> 
+
+
+    </nav>
+    <div class="header-actions">
+      <a class="icon-btn" href="saved.html" aria-label="المفضلة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+      </a>
+      <div class="user-chip" data-dropdown-trigger="userMenu" tabindex="0">
+        <img src="logo2.png" alt="صورة المستخدم">
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="dropdown-menu" id="userMenu">
+          <a href="profile.html">الملف الشخصي</a>
+          <a href="settings.html">الإعدادات</a>
+          <a href="my-services.html">خدماتي المضافة</a>
+          <button type="button" data-loading-click="تم تسجيل الخروج">تسجيل الخروج</button>
+        </div>
+      </div>
+      <button class="hamburger" data-hamburger aria-label="القائمة" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-overlay" data-drawer-overlay></div>
+<aside class="mobile-drawer" data-drawer>
+  <div class="brand"><span class="brand-badge">📍</span> وين الخدمة</div>
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="my-services.html">خدماتي</a>
+    <a href="assistant.html">المساعد الذكي</a>
+    <a href="explore.html">استكشاف الخدمات</a>
+    <a href="reports.html">بلاغاتي</a>
+    <a href="profile.html" class="active">الملف الشخصي</a>
+    <a href="settings.html">الإعدادات</a>
+  </nav>
+</aside>
+
+<main class="container">
+  <p class="eyebrow">الملف الشخصي</p>
+
+  <div class="profile-shell">
+    <aside class="profile-side">
+      <img src="https://i.pravatar.cc/160?img=47" alt="صورة المستخدم">
+      <h3>محمد العودة</h3>
+      <p>متطوع ميداني — الوسطى</p>
+      <nav class="side-nav" data-tabs data-tabs-target="#profileWrap">
+        <button class="active" data-tab="infoPanel">البيانات الشخصية</button>
+        <button data-tab="activityPanel">نشاطي الميداني</button>
+        <button data-tab="securityPanel">الأمان وكلمة المرور</button>
+      </nav>
+    </aside>
+
+    <section class="profile-main" id="profileWrap">
+      <div class="tab-panel active" id="infoPanel">
+        <h2>البيانات الشخصية</h2>
+        <form data-validate-form id="profileInfoForm">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="pname">الاسم الكامل <span class="req">*</span></label>
+              <input type="text" id="pname" data-validate="required" value="محمد العودة">
+              <span class="error-msg">⚠ هذا الحقل مطلوب</span>
+            </div>
+            <div class="form-group">
+              <label for="pphone">رقم الهاتف <span class="req">*</span></label>
+              <input type="tel" id="pphone" data-validate="required|phone" value="0599123456">
+              <span class="error-msg">⚠ الرجاء إدخال رقم هاتف صحيح</span>
+            </div>
+            <div class="form-group full">
+              <label for="pemail">البريد الإلكتروني <span class="req">*</span></label>
+              <input type="email" id="pemail" data-validate="required|email" value="mohammed@example.com">
+              <span class="error-msg">⚠ الرجاء إدخال بريد إلكتروني صحيح</span>
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <span class="btn-label">حفظ التغييرات</span><span class="spinner">⏳</span>
+          </button>
+        </form>
+      </div>
+
+      <div class="tab-panel" id="activityPanel">
+        <h2>نشاطي الميداني</h2>
+        <div class="accordion-item open">
+          <button class="accordion-head" aria-expanded="true">3 خدمات تمت إضافتها <span class="arrow">▾</span></button>
+          <div class="accordion-body" style="max-height:200px;"><p>راجع صفحة "خدماتي" لعرض كافة المرافق التي أضفتها وحالتها الحالية.</p></div>
+        </div>
+        <div class="accordion-item">
+          <button class="accordion-head" aria-expanded="false">12 تحديث حالة ميداني <span class="arrow">▾</span></button>
+          <div class="accordion-body"><p>ساهمت بتحديث حالة العمل لعدد من المرافق القريبة منك خلال الشهر الماضي.</p></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="securityPanel">
+        <h2>الأمان وكلمة المرور</h2>
+        <form data-validate-form>
+          <div class="form-group full">
+            <label for="curpass">كلمة المرور الحالية <span class="req">*</span></label>
+            <div class="password-wrap">
+              <input type="password" id="curpass" data-validate="required">
+              <button type="button" class="toggle-pass" aria-label="إظهار كلمة المرور">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="error-msg">⚠ هذا الحقل مطلوب</span>
+          </div>
+          <div class="form-group full">
+            <label for="newpass">كلمة المرور الجديدة <span class="req">*</span></label>
+            <div class="password-wrap">
+              <input type="password" id="newpass" data-validate="required|minLength:8">
+              <button type="button" class="toggle-pass" aria-label="إظهار كلمة المرور">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+              </button>
+            </div>
+            <span class="error-msg">⚠ 8 أحرف على الأقل</span>
+          </div>
+          <button type="submit" class="btn btn-primary">
+            <span class="btn-label">تحديث كلمة المرور</span><span class="spinner">⏳</span>
+          </button>
+        </form>
+      </div>
+    </section>
+  </div>
+</main>
+
+<script src="../auth.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>استكشاف الخدمات | وين الخدمة</title>
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="brand"><img src="Logo.png" alt=""></div>
+    <nav class="main-nav" aria-label="التنقل الرئيسي">
+    <a href="index.html">الرئيسية</a>
+      <a href="explore.html" class="active">استكشاف الخدمات</a>
+      <a href="assistant.html">المساعد الذكي</a>
+      <a href="../step/step0.html">خدماتي</a>
+      <a href="../البلاغات/index.html">بلاغاتي</a> 
+
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="الإشعارات" data-loading-click="لا توجد إشعارات جديدة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="badge-dot"></span>
+      </button>
+      <a class="icon-btn" href="saved.html" aria-label="المفضلة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+      </a>
+      <div class="user-chip" data-dropdown-trigger="userMenu" tabindex="0">
+        <img src="logo2.png" alt="صورة المستخدم">
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="dropdown-menu" id="userMenu">
+          <a href="profile.html">الملف الشخصي</a>
+          <a href="settings.html">الإعدادات</a>
+          <a href="my-services.html">خدماتي المضافة</a>
+          <button type="button" data-loading-click="تم تسجيل الخروج">تسجيل الخروج</button>
+        </div>
+      </div>
+      <button class="hamburger" data-hamburger aria-label="القائمة" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-overlay" data-drawer-overlay></div>
+<aside class="mobile-drawer" data-drawer>
+  <div class="brand"><span class="brand-badge"></span> وين الخدمة</div>
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="my-services.html">خدماتي</a>
+    <a href="assistant.html" >المساعد الذكي</a>
+    <a href="explore.html" class="active">استكشاف الخدمات</a>
+    <a href="reports.html">بلاغاتي</a>
+    <a href="profile.html">الملف الشخصي</a>
+    <a href="settings.html">الإعدادات</a>
+  </nav>
+</aside>
+
+
+<main class="container">
+ 
+<div class="alert-banner" id="gpsAlert">
+    <div class="left">
+      <span>⚠️</span>
+      <span><strong>فشل تحديد الموقع التلقائي (GPS):</strong> أدوات تحديد الموقع متوقفة أو مصححة على الإشارة. يرجى تحديد المنطقة يدوياً لتصفية خدمات غزة القريبة.</span>
+    </div>
+    <button class="btn btn-primary btn-sm" data-open-location-modal>📍 تحديد المنطقة يدوياً</button>
+    <button class="close-x" aria-label="إغلاق التنبيه">×</button>
+  </div>
+
+
+  <div class="explore-toolbar">
+    <h1 style="font-size:20px;font-weight:900;">استكشاف الخدمات المتاحة</h1>
+    <div class="view-toggle" data-tabs data-tabs-target="#viewWrap">
+      <button class="tab-btn active" data-tab="mapView">🗺 خريطة</button>
+      <button class="tab-btn" data-tab="listView">☰ قائمة</button>
+    </div>
+  </div>
+  <p class="results-count" data-results-count>تم العثور على 10 خدمات مطابقة لمعايير البحث في قطاع غزة.</p>
+
+  <div class="explore-layout">
+    <div id="viewWrap">
+      <!-- MAP VIEW -->
+      <div class="tab-panel active" id="mapView">
+        <div class="map-panel">
+          <h3>الخريطة التفاعلية لقطاع غزة</h3>
+          <p class="hint">اضغط على المحافظة لتصفية الخدمات، أو اضغط على الدبابيس لمشاهدة التفاصيل.</p>
+          <div class="map-svg-wrap">
+            <div class="zoom-controls">
+              <button data-zoom="in" aria-label="تكبير">+</button>
+              <button data-zoom="out" aria-label="تصغير">−</button>
+            </div>
+            <div id="leafletMap" style="width:100%;height:420px;border-radius:var(--radius-md);"></div>
+          </div>
+          <div class="map-legend">
+            <p style="font-weight:700;">حالة الخدمة:</p>
+            <div class="legend-item"><span class="legend-dot" style="background:#22c55e;"></span> متوفر ومفتوح</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> مزدحم جداً</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#ef4444;"></span> مغلق مؤقتاً</div>
+            <div class="legend-item"><span class="legend-dot" style="background:#9ca3af;"></span> غير مؤكد حالياً</div>
+          </div>
+          <p class="map-note">🛈 تم تحديد الموقع افتراضياً لخدمة الأهالي والزائرين وتسهيل الوصول الميداني السريع.</p>
+        </div>
+      </div>
+
+      <!-- LIST VIEW -->
+      <div class="tab-panel" id="listView">
+        <div class="search-field mt-16" style="max-width:360px;">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="ابحث ضمن النتائج..." data-search-input="#resultsGrid" data-search-cards=".service-card">
+        </div>
+
+        <div class="services-grid mt-16" id="resultsGrid">
+          <article class="service-card" data-category="pharmacy" data-service-id="svc-1">
+            <div class="service-thumb"><img src="img/صيدلية العودة المركزية.png" alt="صيدلية السلام"><span class="service-tag">صيدلية</span>
+              <button class="fav-btn active" data-service-id="svc-1" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+            </div>
+            <div class="service-body">
+              <div class="status-line status-open" style="color:#16A34A; border: 1px solid #a3f0bf;  border-radius: 20PX; width: 100px; background:#DCFCE7; height: 30px;""><span class="status-dot"></span> متوفر ومفتوح</div>
+              <div class="distance"> تبعد حوالي 1.4 كم</div>
+              <h4 class="service-title">صيدلية العودة المركزية</h4>
+               <p class="service-desc">توفر الأدوية الأساسية والمضادات الحيوية وحليب الأطفال ومستلزمات الإسعافات الأولية.</p>
+               <p class="service-meta"> <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <g clip-path="url(#clip0_226_1447)">
+               <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               </svg>
+                الوسطى، دير البلح، وسط بلد - قرب مسجد البلد القديم</p>
+               <p class="service-meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <g clip-path="url(#clip0_226_2364)">
+               <path d="M7 3.5V7L9.33333 8.16667" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M1.16663 7.00008C1.16663 10.2196 3.78045 12.8334 6.99996 12.8334C10.2195 12.8334 12.8333 10.2196 12.8333 7.00008C12.8333 3.78058 10.2195 1.16675 6.99996 1.16675C3.78045 1.16675 1.16663 3.78058 1.16663 7.00008V7.00008" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               </svg> من 8:00 صباحاً حتى 6:00 مساءً</p>
+              <div class="service-actions"><button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><a href="explore.html?service=svc-1" class="btn btn-primary">عرض التفاصيل</a></div>
+            </div>
+          </article>
+
+
+              <article class="service-card" data-category="bakery" data-service-id="svc-2">
+            <div class="service-thumb"><img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?w=400&q=60" alt="مخبز الهدى الآلي"><span class="service-tag">مخبز</span>
+              <button class="fav-btn" data-service-id="svc-2" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+            </div>
+            <div class="service-body">
+              <div class="status-line status-busy" style=" color:#F59E0B; border: 1px solid #F59E0B;  border-radius: 20PX; width: 100px; background:#FFFBEB; height: 30px;"><span class="status-dot"></span> مزدحم جداً</div>
+           <div class="distance"> <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_226_1447)">
+            <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            </svg>تبعد حوالي 2.4 كم</div>
+              <h4 class="service-title">مخبز الهدى الآلي</h4>
+              <p class="service-desc">يقدم كافة أنواع الخبز العربي والحلويات والمعجنات الطازجة على مدار الساعة.</p>
+              <p class="service-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+              </svg>
+                الوسطى.دير البلح.منطقة البيارة</p>
+                <p class="service-meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_226_2364)">
+                <path d="M7 3.5V7L9.33333 8.16667" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1.16663 7.00008C1.16663 10.2196 3.78045 12.8334 6.99996 12.8334C10.2195 12.8334 12.8333 10.2196 12.8333 7.00008C12.8333 3.78058 10.2195 1.16675 6.99996 1.16675C3.78045 1.16675 1.16663 3.78058 1.16663 7.00008V7.00008" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                </svg> من 7:00 صباحاً حتى 4:00 مساءً</p>
+
+              <div class="service-actions"><button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><a href="explore.html?service=svc-2" class="btn btn-primary">عرض التفاصيل</a></div>
+            </div>
+          </article>
+
+          <article class="service-card" data-category="market" data-service-id="svc-3">
+            <div class="service-thumb"><img src="img/محطة تحلية مياه اليرموك.png" alt="محطة تحلية مياه اليرموك"><span class="service-tag">نقطة مياه </span>
+              <button class="fav-btn" data-service-id="svc-3" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+            </div>
+            <div class="service-body">
+             <div class="status-line status-open" style=" color:#16A34A; border: 1px solid #a3f0bf;  border-radius: 20PX; width: 100px; background:#DCFCE7; height: 30px;"><span class="status-dot"></span> متوفر ومفتوح</div>
+             <div class="distance"> <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <g clip-path="url(#clip0_226_1447)">
+             <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+             <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+             </g>
+             </svg>تبعد حوالي 3.4 كم</div>
+             <h4 class="service-title">محطة تحلية مياه اليرموك</h4>
+              <p class="service-desc">نقطة مجانية لتعبئة المياه الصالحة للشرب (المحلاة). تعمل بمولد طاقة عند الحاجة.</p>
+
+              <p class="service-meta"> <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              </svg> غزة.غزة.الرمال الشمالي</p>
+                <p class="service-meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_226_2364)">
+                <path d="M7 3.5V7L9.33333 8.16667" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M1.16663 7.00008C1.16663 10.2196 3.78045 12.8334 6.99996 12.8334C10.2195 12.8334 12.8333 10.2196 12.8333 7.00008C12.8333 3.78058 10.2195 1.16675 6.99996 1.16675C3.78045 1.16675 1.16663 3.78058 1.16663 7.00008V7.00008" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                </svg>من 9:00 صباحاً حتى 3:00 مساءً</p>
+              <div class="service-actions"><button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><a href="explore.html?service=svc-3" class="btn btn-primary">عرض التفاصيل</a></div>
+            </div>
+          </article>
+
+             <article class="service-card" data-category="pharmacy" data-service-id="svc-4">
+            <div class="service-thumb"><img src="img/نقطة شحن كهرباء _نور غزة_ (1).png" alt="نقطة شحن كهرباء "><span class="service-tag">نقطة شحن كهرباء</span> 
+              <button class="fav-btn active" data-service-id="svc-4" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+            </div>
+            
+            <div class="service-body">
+
+              <div class="status-line status-open" style=" color:#16A34A; border: 1px solid #a3f0bf;  border-radius: 20PX; width: 100px; background:#DCFCE7; height: 30px;"><span class="status-dot"></span> متوفر ومفتوح</div>   
+              <div class="distance"> <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              </svg>تبعد حوالي 0.4 كم</div>
+              <h4 class="service-title">نقطة شحن كهرباء "نور غزة" </h4>
+             
+              <p class="service-meta">شحن الهواتف، البطاريات، والأجهزة الطبية باستخدام ألواح الطاقة الشمسية مجاناً للعائلات النازحة.</p>
+
+              
+            <p class="service-desc"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_226_1447)">
+            <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            </svg>الوسطى . النصيرات .مخيم2</p>
+            <p class="service-meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <g clip-path="url(#clip0_226_2364)">
+             <path d="M7 3.5V7L9.33333 8.16667" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+             <path d="M1.16663 7.00008C1.16663 10.2196 3.78045 12.8334 6.99996 12.8334C10.2195 12.8334 12.8333 10.2196 12.8333 7.00008C12.8333 3.78058 10.2195 1.16675 6.99996 1.16675C3.78045 1.16675 1.16663 3.78058 1.16663 7.00008V7.00008" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+             </g>
+             </svg> من 9:00 صباحاً حتى 5:00 مساءً</p>
+              <div class="service-actions"><button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><a href="explore.html?service=svc-4" class="btn btn-primary">عرض التفاصيل</a></div>
+            </div>
+          </article>
+
+
+           <article class="service-card" data-category="bakery" data-service-id="svc-5">
+            <div class="service-thumb"><img src="img/مستشفى شهداء الأقصى - قسم العيادات الخارجية.png" alt="مخبز الهدى الآلي"><span class="service-tag">عيادة ومستشفى</span>
+              <button class="fav-btn" data-service-id="svc-5" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+            </div>
+            <div class="service-body">
+              <div class="status-line status-busy" style="color:#F59E0B; border: 1px solid #F59E0B;  border-radius: 20PX; width: 100px; background:#FFFBEB; height: 30px;"><span class="status-dot" ></span> مزدحم جداً</div>
+              <div class="distance"> <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <g clip-path="url(#clip0_226_1447)">
+               <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               </svg>تبعد حوالي 1.4 كم</div>
+              <h4 class="service-title">مستشفى شهداء الأقصى - قسم العيادات الخارجية</h4>
+
+              <p class="service-desc">تقديم الخدمات الطبية الطارئة، غيار الجروح، عيادةالأطفال، وعيادة الباطنة.</p>
+
+              <p class="service-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              </svg>  الوسطى .دير البلح.طريق صلاح الدين الرئيسي</p>
+               <p class="service-meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <g clip-path="url(#clip0_226_2364)">
+               <path d="M7 3.5V7L9.33333 8.16667" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M1.16663 7.00008C1.16663 10.2196 3.78045 12.8334 6.99996 12.8334C10.2195 12.8334 12.8333 10.2196 12.8333 7.00008C12.8333 3.78058 10.2195 1.16675 6.99996 1.16675C3.78045 1.16675 1.16663 3.78058 1.16663 7.00008V7.00008" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               </svg> على مدار 24 ساعة (الطوارئ)، العيادات من  8:00</p>
+              <div class="service-actions"><button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><a href="explore.html?service=svc-5" class="btn btn-primary">عرض التفاصيل</a></div>
+            </div>
+          </article>
+
+
+             <article class="service-card" data-category="market" data-service-id="svc-6">
+            <div class="service-thumb"><img src="img/مركز توزيع مساعدات الأونروا - مدرسة بنات دير البلح.png" alt="مركز توزيع مساعدات "><span class="service-tag"> مركز توزيع مساعدات</span>
+              <button class="fav-btn" data-service-id="svc-6" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+            </div>
+            <div class="service-body">
+              <div class="status-line status-closed" style="color:#DC2626; border: 1px solid #DC2626;  border-radius: 20PX; width: 100px; background:#FFF1F2; height: 30px;"><span class="status-dot"></span> مغلق حالياً</div>
+              <div class="distance"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              </svg> تبعد حوالي 2.4 كم</div>
+              <h4 class="service-title">مركز توزيع مساعدات </h4>
+              <p class="service-desc">مركز توزيع مساعدات الأونروا - مدرسة بنات دير البلح</p>
+              <p class="service-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              </svg>  الوسطى .دير البلح.  منطقة حكر الجامع</p>
+               <p class="service-meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <g clip-path="url(#clip0_226_2364)">
+               <path d="M7 3.5V7L9.33333 8.16667" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M1.16663 7.00008C1.16663 10.2196 3.78045 12.8334 6.99996 12.8334C10.2195 12.8334 12.8333 10.2196 12.8333 7.00008C12.8333 3.78058 10.2195 1.16675 6.99996 1.16675C3.78045 1.16675 1.16663 3.78058 1.16663 7.00008V7.00008" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               </svg> من 8:30 صباحاً حتى 2:30 مساءً</p>
+             
+              <div class="service-actions"><button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><a href="explore.html?service=svc-6" class="btn btn-primary">عرض التفاصيل</a></div>
+            </div>
+          </article>
+
+
+          
+             <article class="service-card" data-category="market" data-service-id="svc-7">
+            <div class="service-thumb"><img src="img/صيدلية القدس الحديثة.png" alt="مركز توزيع مساعدات "><span class="service-tag"> مركز توزيع مساعدات</span>
+              <button class="fav-btn" data-service-id="svc-7" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+            </div>
+            <div class="service-body">
+              <div class="status-line status-closed"  style="color:#6B7280; border: 1px solid #6B7280;  border-radius: 20PX; width: 100px; background:#F9FAFB; height: 30px;"><span class="status-dot" style="background-color: #6B7280;"></span> غير مؤكد حالياً </div>
+              <div class="distance"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              </svg> تبعد حوالي 3.4 كم</div>
+              <h4 class="service-title">مركز توزيع مساعدات </h4>
+              <p class="service-desc">مركز توزيع مساعدات الأونروا - مدرسة بنات دير البلح</p>
+              <p class="service-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              </svg>  الوسطى .دير البلح.  منطقة حكر الجامع</p>
+               <p class="service-meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <g clip-path="url(#clip0_226_2364)">
+               <path d="M7 3.5V7L9.33333 8.16667" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M1.16663 7.00008C1.16663 10.2196 3.78045 12.8334 6.99996 12.8334C10.2195 12.8334 12.8333 10.2196 12.8333 7.00008C12.8333 3.78058 10.2195 1.16675 6.99996 1.16675C3.78045 1.16675 1.16663 3.78058 1.16663 7.00008V7.00008" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               </svg> من 8:30 صباحاً حتى 2:30 مساءً</p>
+             
+              <div class="service-actions"><button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><a href="explore.html?service=svc-7" class="btn btn-primary">عرض التفاصيل</a></div>
+            </div>
+          </article>
+
+          
+              <article class="service-card" data-category="market" data-service-id="svc-8">
+            <div class="service-thumb"><img src="img/مخبز العائلات اليدوي.png" alt=" مخبز العائلات اليدوي  "><span class="service-tag">مخبز </span>
+              <button class="fav-btn" data-service-id="svc-8" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+            </div>
+            <div class="service-body">
+              <div class="status-line status-closed"  style="color:#DC2626; border: 1px solid #DC2626;  border-radius: 20PX; width: 100px; background:#FFF1F2; height: 30px;"> <span class="status-dot"></span> مغلق حالياً</div>
+             <div class="distance"> <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+             <g clip-path="url(#clip0_226_1447)">
+             <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+             <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+             </g>
+             </svg>تبعد حوالي 0.4 كم</div>
+              <h4 class="service-title">مخبز العائلات اليدوي </h4>
+              <p class="service-desc">مخبز شامي يدوي يعمل بالحطب لإنتاج أرغفة الخبز الطازجة بأسعار مدعومة. </p>
+
+              <p class="service-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              </svg> شمال غزة .جباليا. معسكر جباليا - مفترق الترنّس</p>
+               <p class="service-meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <g clip-path="url(#clip0_226_2364)">
+               <path d="M7 3.5V7L9.33333 8.16667" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M1.16663 7.00008C1.16663 10.2196 3.78045 12.8334 6.99996 12.8334C10.2195 12.8334 12.8333 10.2196 12.8333 7.00008C12.8333 3.78058 10.2195 1.16675 6.99996 1.16675C3.78045 1.16675 1.16663 3.78058 1.16663 7.00008V7.00008" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               </svg> من 6:00 صباحاً حتى 2:00 مساءً</p>
+             
+              <div class="service-actions"><button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><a href="explore.html?service=svc-8" class="btn btn-primary">عرض التفاصيل</a></div>
+            </div>
+          </article>
+
+           <article class="service-card" data-category="pharmacy" data-service-id="svc-9">
+            <div class="service-thumb"><img src="img/نقطة تعبئة مياه آبار السبيل.png" alt="نقطة مياه "><span class="service-tag">نقطة مياه</span>
+              <button class="fav-btn active" data-service-id="svc-9" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+            </div>
+            <div class="service-body">
+              <div class="status-line status-open" style="color:#16A34A; border: 1px solid #a3f0bf;  border-radius: 20PX; width: 100px; background:#DCFCE7; height: 30px;"><span class="status-dot"></span> متوفر ومفتوح</div>
+              <p class="distance"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <g clip-path="url(#clip0_226_1447)">
+              <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+              </g>
+              </svg> تبعد حوالي 1.4 كم</p>
+              <h4 class="service-title">نقطة تعبئة مياه آبار السبيل</h4>
+               <p class="service-desc">  مياه غسيل واستخدام منزلي (غير محلاة) يتم تعبئتها مجاناً برعاية لجان الأحياء.</p>
+
+               <p class="service-meta"><svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <g clip-path="url(#clip0_226_1447)">
+               <path d="M10 5C10 7.4965 7.2305 10.0965 6.3005 10.8995C6.12252 11.0333 5.87748 11.0333 5.6995 10.8995C4.7695 10.0965 2 7.4965 2 5C2 2.79234 3.79234 1 6 1C8.20766 1 10 2.79234 10 5" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M4.5 5C4.5 5.82787 5.17213 6.5 6 6.5C6.82787 6.5 7.5 5.82787 7.5 5C7.5 4.17213 6.82787 3.5 6 3.5C5.17213 3.5 4.5 4.17213 4.5 5Z" stroke="#16A34A" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               </svg>رفح.رفح.حي تل السلطان</p>
+               <p class="service-meta"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <g clip-path="url(#clip0_226_2364)">
+               <path d="M7 3.5V7L9.33333 8.16667" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               <path d="M1.16663 7.00008C1.16663 10.2196 3.78045 12.8334 6.99996 12.8334C10.2195 12.8334 12.8333 10.2196 12.8333 7.00008C12.8333 3.78058 10.2195 1.16675 6.99996 1.16675C3.78045 1.16675 1.16663 3.78058 1.16663 7.00008V7.00008" stroke="#16A34A" stroke-width="1.16667" stroke-linecap="round" stroke-linejoin="round"/>
+               </g>
+               </svg> من 10:00 صباحاً حتى 4:00 مساءً</p>
+              <div class="service-actions"><button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button><a href="explore.html?service=svc-9" class="btn btn-primary">عرض التفاصيل</a></div>
+            </div>
+          </article>
+        </div>
+      
+
+      
+      </div>
+    </div>
+
+    <!-- FILTERS -->
+    <aside class="filters-panel">
+      <div class="filters-head">
+        <h3>خيارات التصفية</h3>
+        <a href="#" class="reset-link">إعادة ضبط</a>
+      </div>
+      <div class="field-group">
+        <label for="fCat">فئة الخدمة الميدانية</label>
+        <div class="select-wrap">
+          <select id="fCat">
+            <option value="all">كل الفئات المتاحة</option>
+            <option value="pharmacy">صيدليات</option>
+            <option value="bakery">مخابز</option>
+            <option value="water">نقاط مياه</option>
+            <option value="power">نقاط شحن كهرباء</option>
+            <option value="hospital">مستشفيات وعيادات</option>
+            <option value="storage">مراكز توزيع مساعدات</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="fGov">المحافظة</label>
+        <div class="select-wrap">
+          <select id="fGov">
+            <option value="all">كل قطاع غزة</option>
+            <option value="الشمال">الشمال</option>
+            <option value="غزة">غزة</option>
+            <option value="الوسطى">الوسطى</option>
+            <option value="خانيونس">خانيونس</option>
+            <option value="رفح">رفح</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label for="fStatus">حالة العمل والتشغيل</label>
+        <div class="select-wrap">
+          <select id="fStatus">
+            <option value="all">كل الحالات الميدانية</option>
+            <option value="open">متوفر ومفتوح</option>
+            <option value="busy">مزدحم جداً</option>
+            <option value="closed">مغلق مؤقتاً</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-group">
+        <div class="range-value"><span>المسافة القصوى</span><span id="rangeOut">50 كم</span></div>
+        <input type="range" min="0" max="50" value="50" oninput="document.getElementById('rangeOut').textContent=this.value+' كم'; applyExploreFilters();">
+      </div>
+      <button class="btn btn-primary btn-block" id="applyFiltersBtn" data-loading-click="تم تطبيق الفلاتر">تطبيق الفلاتر</button>
+    </aside>
+  </div>
+</main>
+
+
+
+<div class="modal-overlay" id="locationModal">
+  <div class="modal-box">
+    <button class="modal-close" data-modal-close aria-label="إغلاق">×</button>
+    <h3>📍 تحديد المنطقة الميدانية يدوياً</h3>
+    <div class="form-group">
+      <label for="gov2">المحافظة</label>
+      <div class="select-wrap"><select id="gov2"><option value="">اختر المحافظة ...</option><option>الشمال</option><option>غزة</option><option>الوسطى</option><option>خانيونس</option><option>رفح</option></select></div>
+    </div>
+    <div class="form-group">
+      <label for="city2">المدينة / البلدة</label>
+      <div class="select-wrap"><select id="city2"><option value="">اختر المدينة ...</option></select></div>
+    </div>
+    <button class="btn btn-primary btn-block" type="button" data-manual-location-btn>تطبيق وتصفية المراكز القريبة</button>
+  </div>
+</div>
+
+<script src="../auth.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

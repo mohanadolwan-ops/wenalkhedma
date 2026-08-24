@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الإعدادات | وين الخدمة</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="brand"><span class="brand-text"><img src="Logo.png" alt=""></span></div>
+  <nav class="main-nav" aria-label="التنقل الرئيسي">
+    <a href="index.html">الرئيسية</a>
+  
+      <a href="explore.html">استكشاف الخدمات</a>
+      <a href="assistant.html">المساعد الذكي</a>
+      <a href="../step/step0.html">خدماتي</a>
+      <a href="../البلاغات/index.html">بلاغاتي</a> 
+
+    </nav>
+    <div class="header-actions">
+      <a class="icon-btn" href="saved.html" aria-label="المفضلة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+      </a>
+      <div class="user-chip" data-dropdown-trigger="userMenu" tabindex="0">
+        <img src="logo2.png" alt="صورة المستخدم">
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="dropdown-menu" id="userMenu">
+          <a href="profile.html">الملف الشخصي</a>
+          <a href="settings.html">الإعدادات</a>
+          <a href="my-services.html">خدماتي المضافة</a>
+          <button type="button" data-loading-click="تم تسجيل الخروج">تسجيل الخروج</button>
+        </div>
+      </div>
+      <button class="hamburger" data-hamburger aria-label="القائمة" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-overlay" data-drawer-overlay></div>
+<aside class="mobile-drawer" data-drawer>
+  <div class="brand"><span class="brand-badge">📍</span> وين الخدمة</div>
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="my-services.html">خدماتي</a>
+    <a href="assistant.html">المساعد الذكي</a>
+    <a href="explore.html">استكشاف الخدمات</a>
+    <a href="reports.html">بلاغاتي</a>
+    <a href="profile.html">الملف الشخصي</a>
+    <a href="settings.html" class="active">الإعدادات</a>
+  </nav>
+</aside>
+
+<main class="container">
+  <!-- <p class="eyebrow">الإعدادات</p> -->
+
+  <div class="profile-shell">
+    <aside class="profile-side">
+      <img src="https://i.pravatar.cc/160?img=47" alt="صورة المستخدم">
+      <h3>محمد العودة</h3>
+      <p>متطوع ميداني — الوسطى</p>
+      <nav class="side-nav" data-tabs data-tabs-target="#settingsWrap">
+        <button class="active" data-tab="notifPanel">الإشعارات</button>
+        <button data-tab="privacyPanel">الخصوصية</button>
+        <button data-tab="prefPanel">التفضيلات العامة</button>
+      </nav>
+    </aside>
+
+    <section class="profile-main" id="settingsWrap">
+      <div class="tab-panel active" id="notifPanel">
+        <h2>إعدادات الإشعارات</h2>
+        <div class="switch-row">
+          <div class="txt"><strong>إشعارات تحديث حالة المرافق</strong><span>تنبيه عند تغيّر حالة مرفق محفوظ في مفضلتك</span></div>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div class="switch-row">
+          <div class="txt"><strong>إشعارات المرافق الجديدة القريبة</strong><span>تنبيه فور إضافة مرفق جديد في محافظتك</span></div>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div class="switch-row">
+          <div class="txt"><strong>رسائل بريد إلكتروني أسبوعية</strong><span>ملخص أسبوعي بأهم التحديثات الميدانية</span></div>
+          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="privacyPanel">
+        <h2>الخصوصية</h2>
+        <div class="switch-row">
+          <div class="txt"><strong>إظهار اسمي كموثّق للتحديثات</strong><span>يظهر اسمك كمصدر التحديث الميداني للعامة</span></div>
+          <label class="switch"><input type="checkbox" checked><span class="slider"></span></label>
+        </div>
+        <div class="switch-row">
+          <div class="txt"><strong>مشاركة موقعي لتحسين الاقتراحات</strong><span>يساعد على ترشيح أقرب الخدمات لك تلقائياً</span></div>
+          <label class="switch"><input type="checkbox"><span class="slider"></span></label>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="prefPanel">
+        <h2>التفضيلات العامة</h2>
+        <div class="form-group">
+          <label for="lang">لغة الواجهة</label>
+          <div class="select-wrap">
+            <select id="lang"><option>العربية</option><option>English</option></select>
+          </div>
+        </div>
+        <div class="field-group">
+          <label>نطاق البحث الافتراضي (كم)</label>
+          <div class="counter" data-min="1" data-max="50">
+            <button type="button" data-step="down" aria-label="تقليل">−</button>
+            <span class="count-val">10</span>
+            <button type="button" data-step="up" aria-label="زيادة">+</button>
+          </div>
+        </div>
+        <button class="btn btn-primary mt-16" data-loading-click="تم حفظ التفضيلات">حفظ التفضيلات</button>
+      </div>
+    </section>
+  </div>
+</main>
+
+
+<script src="../auth.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

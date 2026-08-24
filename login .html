@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>وين الخدمة | منصة تضامنية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link href="stayle.css" rel="stylesheet">
+</head>
+<style>
+  
+</style>
+<body>
+  <div class="topbar">
+    <div class="brand">
+      <span class="pin">
+        
+      </span>
+      <img src="Logo.png">
+    </div>
+    <div class="tagline">مساحة إغاثية تضامنية لأهالي قطاع غزة</div>
+  </div>
+
+  <div class="stage">
+
+    <!-- ================= LOGIN ================= -->
+    <section class="view active" id="view-login">
+      <div class="card">
+        <div class="card-logo">
+         <img src="Logo.png">
+        </div>
+        <p class="card-sub">منصة تضامنية خدمية لأهالي قطاع غزة للوصول السريع إلى المراكز التشغيلية النشطة</p>
+
+        <h1 class="view-title">تسجيل الدخول للمنصة</h1>
+        <p class="view-hint">أدخل بياناتك للمساهمة في تحديث وإضافة الخدمات</p>
+
+        <form id="form-login" novalidate>
+          <div class="field" id="login-id-field">
+            <label for="login-id">البريد الإلكتروني أو رقم الهاتف</label>
+          
+            <div class="field-wrap">
+              <input type="text" id="login-id" placeholder="example@gmail.com أو 0590000000">
+              <span class="field-icon">
+               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M11.78 13.46C11.11 13.46 10.44 13.24 9.88 12.8L5.4 9.19C5.07 8.93 5.02 8.45 5.28 8.13C5.54 7.81 6.02 7.76 6.34 8.02L10.82 11.63C11.38 12.08 12.18 12.08 12.74 11.63L17.18 8.02C17.5 7.76 17.97 7.81 18.23 8.13C18.5 8.45 18.45 8.92 18.13 9.18L13.68 12.8C13.12 13.24 12.45 13.46 11.78 13.46Z" fill="#646C66"/>
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M6.84 20H16.66C17.82 20 18.83 19.59 19.6 18.82C20.5 17.92 21 16.63 21 15.19V8.32C21 5.53 19.17 3.5 16.66 3.5H6.84C4.33 3.5 2.5 5.53 2.5 8.32V15.19C2.5 16.63 3 17.92 3.9 18.82C4.67 19.59 5.68 20 6.82 20H6.84ZM6.82 21.5C5.28 21.5 3.9 20.94 2.84 19.88C1.65 18.7 1 17.03 1 15.19V8.32C1 4.72 3.51 2 6.84 2H16.66C19.99 2 22.5 4.72 22.5 8.32V15.19C22.5 17.03 21.85 18.7 20.66 19.88C19.6 20.94 18.22 21.5 16.67 21.5H6.84H6.82Z" fill="#646C66"/>
+              </svg>
+              </span>
+
+            </div>
+            <div class="field-error">الرجاء إدخال بريد إلكتروني أو رقم هاتف صحيح</div>
+          </div>
+
+          <div class="field" id="login-pass-field">
+            <label for="login-pass">كلمة المرور</label>
+            <div class="field-wrap">
+              <input type="password" id="login-pass" placeholder="••••••">
+              
+              <span class="field-icon toggle-eye" data-target="login-pass">
+               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M7.66 3.5C5.14 3.5 3.5 5.23 3.5 7.92V16.08C3.5 18.77 5.14 20.5 7.66 20.5H16.33C18.86 20.5 20.5 18.77 20.5 16.08V7.92C20.5 5.23 18.86 3.5 16.33 3.5H7.66ZM16.33 22H7.66C4.28 22 2 19.62 2 16.08V7.92C2 4.38 4.28 2 7.66 2H16.33C19.72 2 22 4.38 22 7.92V16.08C22 19.62 19.72 22 16.33 22Z" fill="#646C66"/>
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M8.84 10.9C8.23 10.9 7.73 11.39 7.73 12C7.73 12.61 8.23 13.1 8.84 13.1C9.44 13.1 9.94 12.61 9.94 12C9.94 11.39 9.44 10.9 8.84 10.9ZM8.84 14.6C7.4 14.6 6.23 13.43 6.23 12C6.23 10.57 7.4 9.4 8.84 9.4C10.27 9.4 11.44 10.57 11.44 12C11.44 13.43 10.27 14.6 8.84 14.6Z" fill="#646C66"/>
+               <path d="M17.01 14.6C16.6 14.6 16.26 14.27 16.26 13.85V12.75H10.69C10.28 12.75 9.94 12.41 9.94 12C9.94 11.59 10.28 11.25 10.69 11.25H17.01C17.42 11.25 17.76 11.59 17.76 12V13.85C17.76 14.27 17.42 14.6 17.01 14.6ZM14.18 14.6C13.77 14.6 13.43 14.27 13.43 13.85V12C13.43 11.59 13.77 11.25 14.18 11.25C14.6 11.25 14.93 11.59 14.93 12V13.85C14.93 14.27 14.6 14.6 14.18 14.6Z" fill="#646C66"/>
+              </svg>
+
+              </span>
+            </div>
+            <div class="field-error">الرجاء إدخال كلمة المرور</div>
+          </div>
+
+          <button type="submit" class="btn" id="login-submit">تسجيل الدخول</button>
+        </form>
+
+        <div class="link-row">
+          <button type="button" class="link-btn" data-goto="forgot">نسيت كلمة المرور؟</button>
+        </div>
+        <div class="link-row">
+          <span class="muted">ليس لديك حساب؟</span>
+          <button type="button" class="link-btn" data-goto="signup">إنشاء حساب مساهم</button>
+        </div>
+
+        <div class="divider"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.49 2.23L5.49997 4.11C4.34997 4.54 3.40997 5.9 3.40997 7.12V14.55C3.40997 15.73 4.18997 17.28 5.13997 17.99L9.43997 21.2C10.85 22.26 13.17 22.26 14.58 21.2L18.88 17.99C19.83 17.28 20.61 15.73 20.61 14.55V7.12C20.61 5.89 19.67 4.53 18.52 4.1L13.53 2.23C12.68 1.92 11.32 1.92 10.49 2.23Z" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9.04999 11.87L10.66 13.48L14.96 9.17999" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+       </svg> بيانات الاتصال مشفرة وخاصة بالكامل بالتعاون مع فرق الإغاثة المحلية</div>
+      </div> 
+    </section>
+
+    <!-- ================= SIGNUP ================= -->
+    <section class="view" id="view-signup">
+      <div class="card">
+        <div class="card-logo">
+
+         <img src="Logo.png">
+        </div>
+        <p class="card-sub">منصة تضامنية خدمية لأهالي قطاع غزة للوصول السريع إلى المراكز التشغيلية النشطة</p>
+
+        <h1 class="view-title">إنشاء حساب مساهم</h1>
+        <p class="view-hint">انضم لآلاف المساهمين المحليين لمساندة الأهالي</p>
+
+        <form id="form-signup" novalidate>
+          <div class="field" id="signup-name-field">
+            <label for="signup-name">الاسم الكامل</label>
+            <div class="field-wrap">
+              <input type="text" id="signup-name" placeholder="مثال: أحمد محمد">
+              <span class="field-icon">
+                <!-- <i data-lucide="user"></i> -->
+                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                 <path d="M12.1601 10.87C12.0601 10.86 11.9401 10.86 11.8301 10.87C9.45006 10.79 7.56006 8.84 7.56006 6.44C7.56006 3.99 9.54006 2 12.0001 2C14.4501 2 16.4401 3.99 16.4401 6.44C16.4301 8.84 14.5401 10.79 12.1601 10.87Z" stroke="#646C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                 <path d="M7.15997 14.56C4.73997 16.18 4.73997 18.82 7.15997 20.43C9.90997 22.27 14.42 22.27 17.17 20.43C19.59 18.81 19.59 16.17 17.17 14.56C14.43 12.73 9.91997 12.73 7.15997 14.56Z" stroke="#646C66" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                 </svg>
+              </span>
+            </div>
+            <div class="field-error">الرجاء إدخال الاسم الكامل</div>
+          </div>
+
+          <div class="field" id="signup-phone-field">
+            <label for="signup-phone">رقم الهاتف</label>
+            <div class="field-wrap">
+              <input type="text" id="signup-phone" placeholder="0590000000">
+              <span class="field-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M3.36121 4.01158C5.28846 2.08421 6.54357 1.57364 7.8827 2.34361C8.26788 2.56511 8.62902 2.87523 9.12 3.37389L10.6268 4.93541C11.4588 5.84325 11.6477 6.71446 11.3768 7.73424L11.3397 7.86998L11.2987 8.00377L11.0966 8.59459C10.6656 9.91951 10.8463 10.667 12.3798 12.2001C13.9743 13.7941 14.7185 13.9252 16.1454 13.4266L16.4003 13.3378L16.7079 13.2381L16.8427 13.201C17.9265 12.912 18.8423 13.1427 19.8134 14.1131L21.0272 15.285L21.3837 15.6366C21.7798 16.0405 22.0419 16.3608 22.2352 16.6991C23.0004 18.0378 22.4887 19.2919 20.5057 21.2674L20.3173 21.4588C20.0213 21.744 19.7449 21.9486 19.3388 22.1415C18.6566 22.4653 17.8504 22.5871 16.9139 22.4569C14.6065 22.1359 11.6798 20.3155 7.97157 16.6083C7.66983 16.3066 7.38092 16.0107 7.10438 15.7206L6.56727 15.1473C1.53757 9.68268 1.09395 6.32593 3.15516 4.22057L3.28895 4.08776L3.36121 4.01158ZM7.13563 3.64342C6.6741 3.37802 6.17502 3.49031 5.25282 4.28404L4.96375 4.54283C4.91328 4.58942 4.86131 4.63816 4.80848 4.68834L4.47645 5.01256L4.44618 5.04967L4.22059 5.27623C3.67642 5.83219 3.41835 6.51076 3.64051 7.6776C4.00512 9.59262 5.67413 12.1906 9.03211 15.5477C12.531 19.0457 15.1973 20.704 17.121 20.9715C18.2421 21.1274 18.8141 20.856 19.3973 20.2587L19.8427 19.8094C20.0512 19.5913 20.2293 19.3934 20.3798 19.2128L20.5848 18.954C21.1094 18.2552 21.1577 17.8357 20.9335 17.4432C20.8481 17.2939 20.7236 17.1297 20.5429 16.9296L20.2977 16.6708L20.1522 16.5253L18.621 15.0467C18.1094 14.5751 17.7592 14.5086 17.2284 14.6503L17.0761 14.6942L16.4413 14.909C14.6012 15.5033 13.2741 15.215 11.3192 13.2606C9.29467 11.2366 9.05695 9.8854 9.73524 7.93932L9.77821 7.81432L9.8993 7.45104L9.95789 7.22057C10.0628 6.7176 9.94291 6.3668 9.40223 5.82604C9.37999 5.8038 9.35505 5.77826 9.32801 5.75084L7.90614 4.28111C7.58042 3.96 7.34424 3.76341 7.13563 3.64342Z" fill="#646C66"/>
+                </svg>
+              </span>
+            </div>
+            <div class="field-error">الرجاء إدخال رقم هاتف صحيح</div>
+          </div>
+
+          <div class="field" id="signup-email-field">
+            <label for="signup-email">البريد الإلكتروني</label>
+            <div class="field-wrap">
+              <input type="text" id="signup-email" placeholder="example@gmail.com">
+               <span class="field-icon">
+               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M11.78 13.46C11.11 13.46 10.44 13.24 9.88 12.8L5.4 9.19C5.07 8.93 5.02 8.45 5.28 8.13C5.54 7.81 6.02 7.76 6.34 8.02L10.82 11.63C11.38 12.08 12.18 12.08 12.74 11.63L17.18 8.02C17.5 7.76 17.97 7.81 18.23 8.13C18.5 8.45 18.45 8.92 18.13 9.18L13.68 12.8C13.12 13.24 12.45 13.46 11.78 13.46Z" fill="#646C66"/>
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M6.84 20H16.66C17.82 20 18.83 19.59 19.6 18.82C20.5 17.92 21 16.63 21 15.19V8.32C21 5.53 19.17 3.5 16.66 3.5H6.84C4.33 3.5 2.5 5.53 2.5 8.32V15.19C2.5 16.63 3 17.92 3.9 18.82C4.67 19.59 5.68 20 6.82 20H6.84ZM6.82 21.5C5.28 21.5 3.9 20.94 2.84 19.88C1.65 18.7 1 17.03 1 15.19V8.32C1 4.72 3.51 2 6.84 2H16.66C19.99 2 22.5 4.72 22.5 8.32V15.19C22.5 17.03 21.85 18.7 20.66 19.88C19.6 20.94 18.22 21.5 16.67 21.5H6.84H6.82Z" fill="#646C66"/>
+              </svg>
+            </div>
+            <div class="field-error">الرجاء إدخال بريد إلكتروني صحيح</div>
+          </div>
+
+          <div class="field" id="signup-pass-field">
+            <label for="signup-pass">كلمة المرور</label>
+            <div class="field-wrap">
+              <input type="password" id="signup-pass" placeholder="••••••">
+              
+              <span class="field-icon toggle-eye" data-target="signup-pass">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M7.66 3.5C5.14 3.5 3.5 5.23 3.5 7.92V16.08C3.5 18.77 5.14 20.5 7.66 20.5H16.33C18.86 20.5 20.5 18.77 20.5 16.08V7.92C20.5 5.23 18.86 3.5 16.33 3.5H7.66ZM16.33 22H7.66C4.28 22 2 19.62 2 16.08V7.92C2 4.38 4.28 2 7.66 2H16.33C19.72 2 22 4.38 22 7.92V16.08C22 19.62 19.72 22 16.33 22Z" fill="#646C66"/>
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M8.84 10.9C8.23 10.9 7.73 11.39 7.73 12C7.73 12.61 8.23 13.1 8.84 13.1C9.44 13.1 9.94 12.61 9.94 12C9.94 11.39 9.44 10.9 8.84 10.9ZM8.84 14.6C7.4 14.6 6.23 13.43 6.23 12C6.23 10.57 7.4 9.4 8.84 9.4C10.27 9.4 11.44 10.57 11.44 12C11.44 13.43 10.27 14.6 8.84 14.6Z" fill="#646C66"/>
+               <path d="M17.01 14.6C16.6 14.6 16.26 14.27 16.26 13.85V12.75H10.69C10.28 12.75 9.94 12.41 9.94 12C9.94 11.59 10.28 11.25 10.69 11.25H17.01C17.42 11.25 17.76 11.59 17.76 12V13.85C17.76 14.27 17.42 14.6 17.01 14.6ZM14.18 14.6C13.77 14.6 13.43 14.27 13.43 13.85V12C13.43 11.59 13.77 11.25 14.18 11.25C14.6 11.25 14.93 11.59 14.93 12V13.85C14.93 14.27 14.6 14.6 14.18 14.6Z" fill="#646C66"/>
+              </svg>
+              </span>
+
+            </div>
+            <div class="field-error">كلمة المرور يجب أن تكون 6 أحرف على الأقل</div>
+          </div>
+
+          <div class="field" id="signup-agree-field">
+            <label class="agree-box" for="signup-agree">
+              <input type="checkbox" id="signup-agree">
+              <p class="agree-text" style="margin-top: -20px; ">أوافق على اتفاقية استخدام منصة وين الخدمة وشروط حماية وخصوصية بيانات المدنيين المحليين بقطاع غزة.</p>
+            </label>
+            <div class="field-error">يجب الموافقة على شروط الاستخدام والخصوصية للمتابعة</div>
+          </div> 
+
+          <button type="submit" class="btn" id="signup-submit">إنشاء حساب</button>
+        </form>
+
+        <div class="link-row">
+          <span class="muted">لديك حساب بالفعل؟</span>
+          <button type="button" class="link-btn" data-goto="login">تسجيل الدخول مباشرة</button>
+        </div>
+
+         <div class="divider"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.49 2.23L5.49997 4.11C4.34997 4.54 3.40997 5.9 3.40997 7.12V14.55C3.40997 15.73 4.18997 17.28 5.13997 17.99L9.43997 21.2C10.85 22.26 13.17 22.26 14.58 21.2L18.88 17.99C19.83 17.28 20.61 15.73 20.61 14.55V7.12C20.61 5.89 19.67 4.53 18.52 4.1L13.53 2.23C12.68 1.92 11.32 1.92 10.49 2.23Z" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9.04999 11.87L10.66 13.48L14.96 9.17999" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+       </svg> بيانات الاتصال مشفرة وخاصة بالكامل بالتعاون مع فرق الإغاثة المحلية</div>
+      </div>
+    </section>
+
+    <!-- ================= FORGOT PASSWORD ================= -->
+    <section class="view" id="view-forgot">
+      <div class="card">
+        <div class="card-logo">
+         <img src="Logo.png">
+        </div>
+        <p class="card-sub">منصة تضامنية خدمية لأهالي قطاع غزة للوصول السريع إلى المراكز التشغيلية النشطة</p>
+
+        <h1 class="view-title">استعادة كلمة المرور</h1>
+        <p class="view-hint">أدخل البريد الإلكتروني لإرسال كود الاسترداد الفوري</p>
+
+        <form id="form-forgot" novalidate>
+          <div class="field" id="forgot-email-field">
+            <label for="forgot-email">البريد الإلكتروني</label>
+            <div class="field-wrap">
+              <input type="text" id="forgot-email" placeholder="example@gmail.com">
+              <span class="field-icon">
+               <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M11.78 13.46C11.11 13.46 10.44 13.24 9.88 12.8L5.4 9.19C5.07 8.93 5.02 8.45 5.28 8.13C5.54 7.81 6.02 7.76 6.34 8.02L10.82 11.63C11.38 12.08 12.18 12.08 12.74 11.63L17.18 8.02C17.5 7.76 17.97 7.81 18.23 8.13C18.5 8.45 18.45 8.92 18.13 9.18L13.68 12.8C13.12 13.24 12.45 13.46 11.78 13.46Z" fill="#646C66"/>
+               <path fill-rule="evenodd" clip-rule="evenodd" d="M6.84 20H16.66C17.82 20 18.83 19.59 19.6 18.82C20.5 17.92 21 16.63 21 15.19V8.32C21 5.53 19.17 3.5 16.66 3.5H6.84C4.33 3.5 2.5 5.53 2.5 8.32V15.19C2.5 16.63 3 17.92 3.9 18.82C4.67 19.59 5.68 20 6.82 20H6.84ZM6.82 21.5C5.28 21.5 3.9 20.94 2.84 19.88C1.65 18.7 1 17.03 1 15.19V8.32C1 4.72 3.51 2 6.84 2H16.66C19.99 2 22.5 4.72 22.5 8.32V15.19C22.5 17.03 21.85 18.7 20.66 19.88C19.6 20.94 18.22 21.5 16.67 21.5H6.84H6.82Z" fill="#646C66"/>
+              </svg>
+            </div>
+            <div class="field-error">الرجاء إدخال بريد إلكتروني صحيح</div>
+          </div>
+
+          <button type="submit" class="btn" id="forgot-submit">إرسال كود الاسترداد</button>
+        </form>
+
+        <button type="button" class="back-link" data-goto="login">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+          العودة لتسجيل الدخول
+        </button>
+
+         <div class="divider"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M10.49 2.23L5.49997 4.11C4.34997 4.54 3.40997 5.9 3.40997 7.12V14.55C3.40997 15.73 4.18997 17.28 5.13997 17.99L9.43997 21.2C10.85 22.26 13.17 22.26 14.58 21.2L18.88 17.99C19.83 17.28 20.61 15.73 20.61 14.55V7.12C20.61 5.89 19.67 4.53 18.52 4.1L13.53 2.23C12.68 1.92 11.32 1.92 10.49 2.23Z" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M9.04999 11.87L10.66 13.48L14.96 9.17999" stroke="#16A34A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+       </svg> بيانات الاتصال مشفرة وخاصة بالكامل بالتعاون مع فرق الإغاثة المحلية</div>
+       
+      </div>
+    </section>
+
+    <!-- ================= RESET SUCCESS ================= -->
+    <section class="view" id="view-reset-success">
+      <div class="card">
+        <div class="card-logo">
+         <img src="Logo.png">
+        </div>
+        <p class="card-sub">منصة تضامنية خدمية لأهالي قطاع غزة للوصول السريع إلى المراكز التشغيلية النشطة</p>
+
+        <div class="success-box">
+          <div class="success-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5"><path d="M20 6 9 17l-5-5"/></svg>
+          </div>
+          <p class="success-title">تم إرسال تعليمات الاستعادة بنجاح!</p>
+          <p class="success-text">يرجى التحقق من بريدك الوارد لإعادة ضبط الرقم السري والولوج للموقع</p>
+          <button type="button" class="btn" data-goto="login">العودة لتسجيل الدخول</button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="toast" id="toast"></div>
+ 
+<script src="auth.js"></script>
+<script src="login.js"></script>
+
+<script>
+  lucide.createIcons();
+</script>
+</body>
+</html>

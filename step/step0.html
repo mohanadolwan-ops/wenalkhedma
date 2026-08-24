@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة خدمة | وين الخدمة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../الاساسية/index.html" class="logo">
+      <span class="logo-icon">
+        <img src="Logo.png" alt="">
+      </span>
+    </a>
+
+   <nav class="main-nav" aria-label="التنقل الرئيسي">
+      <a href="../الاساسية/index.html">الرئيسية</a>
+      <a href="../الاساسية/explore.html">استكشاف الخدمات</a>
+      <a href="../الاساسية/assistant.html">المساعد الذكي</a>
+      <a href="step0.html" class="active">خدماتي</a>
+      <a href="../البلاغات/index.html">بلاغاتي</a>
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="الإشعارات">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#4B5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.7 21a2 2 0 01-3.4 0" stroke="#4B5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="icon-btn" aria-label="المفضلة">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21s-7-4.5-9.6-9C.6 8.4 2 5 5.3 5c1.9 0 3.3 1 4.7 2.8C11.4 6 12.8 5 14.7 5 18 5 19.4 8.4 21.6 12 19 16.5 12 21 12 21z" stroke="#4B5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <a href="../الاساسية/profile.html" class="user-avatar">
+        <img src="logo2.png" alt="">
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+  <form class="form-card" id="basicInfoForm">
+    <button class="close-badge" type="button" id="closeBadge0">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      إلغاء وإغلاق
+    </button>
+
+    <div class="form-title">
+      <h1>إضافة خدمة أساسية جديدة في قطاع غزة</h1>
+      <p>ساهم في توجيه الناس للمراكز المفتوحة والمتوفرة لمساعدتهم في تلبية احتياجاتهم اليومية</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step active" data-step="1">
+        <span class="step-circle">1</span>
+        <span class="step-label">المعلومات الأساسية</span>
+      </li>
+      <li class="step" data-step="2">
+        <span class="step-circle">2</span>
+        <span class="step-label">الموقع والعنوان</span>
+      </li>
+      <li class="step" data-step="3">
+        <span class="step-circle">3</span>
+        <span class="step-label">معلومات التشغيل</span>
+      </li>
+      <li class="step" data-step="4">
+        <span class="step-circle">4</span>
+        <span class="step-label">الصور والمستندات</span>
+      </li>
+      <li class="step" data-step="5">
+        <span class="step-circle">5</span>
+        <span class="step-label">المراجعة والإرسال</span>
+      </li>
+    </ol>
+
+    <div class="field">
+      <label for="serviceName">اسم الخدمة أو المرفق <span class="req">*</span></label>
+      <input type="text" id="serviceName" placeholder="مثال: صيدلية العودة المركزية" required>
+    </div>
+
+    <div class="field">
+      <label>فئة الخدمة <span class="req">*</span></label>
+      <div class="category-selector" id="categorySelector">
+        <button type="button" class="category-btn" data-category="pharmacy">صيدلية</button>
+        <button type="button" class="category-btn" data-category="bakery">مخبز</button>
+        <button type="button" class="category-btn" data-category="water">نقطة مياه</button>
+        <button type="button" class="category-btn" data-category="power">نقطة شحن كهرباء</button>
+        <button type="button" class="category-btn" data-category="hospital">عيادة / مستشفى</button>
+        <button type="button" class="category-btn" data-category="storage">مركز توزيع مساعدات</button>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div class="field">
+        <label for="contactPhone">رقم التواصل <span class="req">*</span></label>
+        <input type="tel" id="contactPhone" placeholder="05xxxxxxxx" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="serviceDesc">وصف مختصر للخدمة <span class="req">*</span></label>
+      <textarea id="serviceDesc" placeholder="اكتب وصفاً موجزاً لما يقدمه المرفق (10 أحرف على الأقل)..." required></textarea>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        <span>التالي</span>
+      </button>
+    </div>
+  </form>
+</main>
+
+  <script src="../auth.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

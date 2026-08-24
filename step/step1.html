@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>إضافة خدمة | وين الخدمة</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="header-inner">
+    <a href="../الاساسية/index.html" class="logo">
+      <span class="logo-icon">
+        <img src="Logo.png" alt="">
+      </span>
+    </a>
+
+   <nav class="main-nav" aria-label="التنقل الرئيسي">
+      <a href="../الاساسية/index.html">الرئيسية</a>
+      <a href="../الاساسية/explore.html">استكشاف الخدمات</a>
+      <a href="../الاساسية/assistant.html">المساعد الذكي</a>
+      <a href="step0.html" class="active">خدماتي</a>
+      <a href="../البلاغات/index.html">بلاغاتي</a> 
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="الإشعارات">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M18 8a6 6 0 10-12 0c0 7-3 9-3 9h18s-3-2-3-9" stroke="#4B5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M13.7 21a2 2 0 01-3.4 0" stroke="#4B5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button class="icon-btn" aria-label="المفضلة">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+          <path d="M12 21s-7-4.5-9.6-9C.6 8.4 2 5 5.3 5c1.9 0 3.3 1 4.7 2.8C11.4 6 12.8 5 14.7 5 18 5 19.4 8.4 21.6 12 19 16.5 12 21 12 21z" stroke="#4B5563" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <a href="../الاساسية/profile.html" class="user-avatar">
+        <img src="logo2.png" alt="">
+      </a>
+    </div>
+  </div>
+</header>
+
+<main class="page">
+  <form class="form-card" id="serviceForm">
+    <a href="#" class="close-badge">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none">
+        <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+      إلغاء وإغلاق
+    </a>
+
+    <div class="form-title">
+      <h1>إضافة خدمة أساسية جديدة في قطاع غزة</h1>
+      <p>ساهم في توجيه الناس للمراكز المفتوحة والمتوفرة لمساعدتهم في تلبية احتياجاتهم اليومية</p>
+    </div>
+
+    <ol class="steps">
+      <li class="step done">
+        <span class="step-circle">✓</span>
+        <span class="step-label">المعلومات الأساسية</span>
+      </li>
+      <li class="step done">
+        <span class="step-circle">✓</span>
+        <span class="step-label">الموقع والعنوان</span>
+      </li>
+      <li class="step active">
+        <span class="step-circle">3</span>
+        <span class="step-label">معلومات التشغيل</span>
+      </li>
+      <li class="step">
+        <span class="step-circle">4</span>
+        <span class="step-label">الصور والمستندات</span>
+      </li>
+      <li class="step">
+        <span class="step-circle">5</span>
+        <span class="step-label">المراجعة والإرسال</span>
+      </li>
+    </ol>
+
+    <div class="field">
+      <label>أيام العمل والتشغيل الأسبوعي <span class="req">*</span></label>
+      <div class="day-selector" id="daySelector">
+        <button type="button" class="day-btn selected" data-day="sat">السبت</button>
+        <button type="button" class="day-btn selected" data-day="sun">الأحد</button>
+        <button type="button" class="day-btn selected" data-day="mon">الاثنين</button>
+        <button type="button" class="day-btn selected" data-day="tue">الثلاثاء</button>
+        <button type="button" class="day-btn selected" data-day="wed">الأربعاء</button>
+        <button type="button" class="day-btn selected" data-day="thu">الخميس</button>
+        <button type="button" class="day-btn" data-day="fri">الجمعة</button>
+      </div>
+    </div>
+
+    <div class="form-grid">
+
+      <div class="field time-field">
+        <label>ساعة فتح الخدمة صباحاً <span class="req">*</span></label>
+        <input type="time" name="openTime" value="08:00" required>
+      </div>
+      
+      <div class="field time-field">
+        <label>ساعة إغلاق الخدمة مساءً <span class="req">*</span></label>
+        <input type="time" name="closeTime" value="16:00" required>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>الحالة التشغيلية الأولية والوضعية الميدانية <span class="req">*</span></label>
+      <div class="status-grid" id="statusGrid">
+         <button type="button" class="status-card selected" data-status="open">
+          <span class="status-check">✓</span>
+          <span class="status-dot green"></span>
+          <span class="status-title">متوفر / مفتوح</span>
+          <span class="status-sub">الفريق متوفر والخدمة تعمل باستمرار</span>
+        </button>
+         <button type="button" class="status-card" data-status="busy">
+          <span class="status-check">✓</span>
+          <span class="status-dot orange"></span>
+          <span class="status-title">مزدحم جداً</span>
+          <span class="status-sub">متوفر لكن ازدحام طويل جداً</span>
+        </button>
+           <button type="button" class="status-card" data-status="closed">
+          <span class="status-check">✓</span>
+          <span class="status-dot red"></span>
+          <span class="status-title">متوقف مؤقتاً</span>
+          <span class="status-sub">مغلق مؤقتاً لأي سبب أو أوضاع</span>
+        </button>
+        <button type="button" class="status-card" data-status="unavailable">
+          <span class="status-check">✓</span>
+          <span class="status-dot gray"></span>
+          <span class="status-title">غير مؤكد</span>
+          <span class="status-sub">مصرح غير مؤكدة حالته بعد</span>
+        </button>
+     
+       
+       
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="submit" class="btn btn-primary">
+        التالي
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M19 12H5M12 19l-7-7 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+      <button type="button" class="btn btn-secondary">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none">
+          <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+        السابق
+      </button>
+    </div>
+  </form>
+</main>
+
+  <script src="../auth.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

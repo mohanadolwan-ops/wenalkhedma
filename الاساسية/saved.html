@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>المراكز والخدمات المحفوظة | وين الخدمة</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="brand"><span class="brand-text"><img src="Logo.png" alt=""></span></div>
+   <nav class="main-nav" aria-label="التنقل الرئيسي">
+    <a href="index.html">الرئيسية</a>
+      <a href="explore.html">استكشاف الخدمات</a>
+      <a href="assistant.html">المساعد الذكي</a>
+      <a href="../step/step0.html">خدماتي</a>
+      <a href="../البلاغات/index.html">بلاغاتي</a> 
+    </nav>
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="الإشعارات" data-loading-click="لا توجد إشعارات جديدة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="badge-dot"></span>
+      </button>
+      <a class="icon-btn active" href="saved.html" aria-label="المفضلة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+      </a>
+      <div class="user-chip" data-dropdown-trigger="userMenu" tabindex="0">
+        <img src="logo2.png" alt="صورة المستخدم">
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="dropdown-menu" id="userMenu">
+          <a href="profile.html">الملف الشخصي</a>
+          <a href="settings.html">الإعدادات</a>
+          <a href="my-services.html">خدماتي المضافة</a>
+          <button type="button" data-loading-click="تم تسجيل الخروج">تسجيل الخروج</button>
+        </div>
+      </div>
+      <button class="hamburger" data-hamburger aria-label="القائمة" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-overlay" data-drawer-overlay></div>
+<aside class="mobile-drawer" data-drawer>
+  <div class="brand"><span class="brand-badge">📍</span> وين الخدمة</div>
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="my-services.html">خدماتي</a>
+    <a href="assistant.html">المساعد الذكي</a>
+    <a href="explore.html">استكشاف الخدمات</a>
+    <a href="reports.html">بلاغاتي</a>
+    <a href="profile.html">الملف الشخصي</a>
+    <a href="settings.html">الإعدادات</a>
+  </nav>
+</aside>
+
+<main class="container">
+  <p class="eyebrow">المراكز والخدمات المحفوظة</p>
+
+  <div class="explore-toolbar">
+    <div>
+      <h1 style="font-size:20px;font-weight:900;">المراكز والخدمات المحفوظة</h1>
+      <p style="font-size:13px;color:var(--text-sub);margin-top:4px;">تتيح وضع المرافق الحيوية التي تهمك للوصول السريع.</p>
+    </div>
+    <a href="explore.html" class="reset-link" style="font-size:13px;">تصفح واستكشاف المزيد ‹</a>
+  </div>
+
+  <div class="services-grid mt-16" id="savedGrid">
+    <!-- تُعبأ ديناميكياً من js/script.js (renderSavedGrid) حسب الخدمات المحفوظة فعلياً بالقلب -->
+  </div>
+</main>
+
+
+<script src="../auth.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

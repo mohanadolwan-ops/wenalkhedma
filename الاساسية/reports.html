@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>بلاغاتي | وين الخدمة</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <div class="brand"><span class="brand-text"><img src="Logo.png" alt=""></span></div>
+     <nav class="main-nav" aria-label="التنقل الرئيسي">
+    <a href="index.html">الرئيسية</a>
+      
+      <a href="explore.html">استكشاف الخدمات</a>
+      <a href="assistant.html">المساعد الذكي</a>
+      <a href="../step/step0.html">خدماتي</a>
+      <a href="../البلاغات/index.html">بلاغاتي</a> 
+
+
+    </nav>
+    <div class="header-actions">
+      <a class="icon-btn" href="saved.html" aria-label="المفضلة" style="position:relative;">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+        <span class="badge-dot"></span>
+      </a>
+      <button class="icon-btn" aria-label="الإشعارات" style="position:relative;" data-loading-click="لديك 2 إشعارات بخصوص بلاغاتك">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="badge-dot"></span>
+      </button>
+      <div class="user-chip" data-dropdown-trigger="userMenu" tabindex="0">
+        <img src="logo2.png" alt="صورة المستخدم">
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="dropdown-menu" id="userMenu">
+          <a href="profile.html">الملف الشخصي</a>
+          <a href="settings.html">الإعدادات</a>
+          <a href="my-services.html">خدماتي المضافة</a>
+          <button type="button" data-loading-click="تم تسجيل الخروج">تسجيل الخروج</button>
+        </div>
+      </div>
+      <button class="hamburger" data-hamburger aria-label="القائمة" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<div class="drawer-overlay" data-drawer-overlay></div>
+<aside class="mobile-drawer" data-drawer>
+  <div class="brand"><span class="brand-badge">📍</span> وين الخدمة</div>
+  <nav>
+    <a href="index.html">الرئيسية</a>
+    <a href="my-services.html">خدماتي</a>
+    <a href="assistant.html">المساعد الذكي</a>
+    <a href="explore.html">استكشاف الخدمات</a>
+    <a href="reports.html" class="active">بلاغاتي</a>
+    <a href="profile.html">الملف الشخصي</a>
+    <a href="settings.html">الإعدادات</a>
+  </nav>
+</aside>
+
+<main class="container">
+
+
+  <a href="index.html" class="back-link">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+    العودة للرئيسية
+  </a>
+
+  <div class="reports-head">
+    <h1>تقارير وبلاغات حال المرفقات الميدانية</h1>
+    <p>تابع حالة بلاغاتك ودورها في تصحيح معلومات الأهالي بقطاع غزة.</p>
+  </div>
+
+  <div class="tabs" data-tabs data-tabs-target="#reportsWrap">
+    <button class="tab-btn active" data-tab="allReports">الكل (4)</button>
+    <button class="tab-btn" data-tab="pendingReports">قيد التدقيق (2)</button>
+    <button class="tab-btn" data-tab="approvedReports">المعتمدة (2)</button>
+    <button class="tab-btn" data-tab="rejectedReports">المرفوضة (0)</button>
+  </div>
+
+  <div id="reportsWrap">
+    <!-- الكل -->
+    <div class="tab-panel active" id="allReports">
+      <div class="reports-grid">
+
+        <article class="report-card" data-status="pending">
+          <div class="report-top">
+            <span class="report-id">REP-62341-GZ</span>
+            <span class="report-status pending">🕘 قيد المراجعة</span>
+          </div>
+          <h4 class="report-title">صيدلية العودة المركزية</h4>
+          <span class="report-date">🗓 تاريخ التقديم: 15-07-2026</span>
+          <div class="report-body"><strong>بلاغ عن:</strong> الخدمة متوقفة أو المرفق مغلق تماماً - نتيجة نقص في الأدوية الأساسية.</div>
+          <a href="#" class="report-footer-link"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+        </article>
+
+        <article class="report-card" data-status="approved">
+          <div class="report-top">
+            <span class="report-id">REP-74921-GZ</span>
+            <span class="report-status approved">✓ تم الاعتماد والنشر</span>
+          </div>
+          <h4 class="report-title">مخبز الأمل الآلي</h4>
+          <span class="report-date">🗓 تاريخ التقديم: 13-07-2026</span>
+          <div class="report-body"><strong>بلاغ عن:</strong> مزدحم جداً - طوابير الانتظار بتجاوز 250 شخص والانتظار لأكثر من 3 ساعات بالطابور الواحد.</div>
+          <a href="#" class="report-footer-link"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+        </article>
+
+        <article class="report-card" data-status="pending">
+          <div class="report-top">
+            <span class="report-id">REP-83021-GZ</span>
+            <span class="report-status pending">🕘 قيد المراجعة</span>
+          </div>
+          <h4 class="report-title">نقطة شحن كهرباء "نور غزة"</h4>
+          <span class="report-date">🗓 تاريخ التقديم: 14-07-2026</span>
+          <div class="report-body"><strong>بلاغ عن:</strong> ساعات العمل خاطئة - النقطة بدأت بالفتح عند الساعة 10 صباحاً بدلاً من 9 بسبب عمليات صيانة الألواح.</div>
+          <a href="#" class="report-footer-link"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+        </article>
+
+        <article class="report-card" data-status="approved">
+          <div class="report-top">
+            <span class="report-id">REP-21849-GZ</span>
+            <span class="report-status approved">✓ تم الاعتماد والنشر</span>
+          </div>
+          <h4 class="report-title">مخبز العائلات اليدوي</h4>
+          <span class="report-date">🗓 تاريخ التقديم: 12-07-2026</span>
+          <div class="report-body"><strong>بلاغ عن:</strong> الخدمة متوقفة أو المخبز مغلق تماماً بسبب نفاذ الحطب والدقيق. وتأمل تحديث حالته لعدم قدوم المواطنين دون فائدة.</div>
+          <a href="#" class="report-footer-link"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+        </article>
+
+      </div>
+    </div>
+
+    <!-- قيد التدقيق -->
+    <div class="tab-panel" id="pendingReports">
+      <div class="reports-grid">
+        <article class="report-card" data-status="pending">
+          <div class="report-top">
+            <span class="report-id">REP-62341-GZ</span>
+            <span class="report-status pending">🕘 قيد المراجعة</span>
+          </div>
+          <h4 class="report-title">صيدلية العودة المركزية</h4>
+          <span class="report-date">🗓 تاريخ التقديم: 15-07-2026</span>
+          <div class="report-body"><strong>بلاغ عن:</strong> الخدمة متوقفة أو المرفق مغلق تماماً - نتيجة نقص في الأدوية الأساسية.</div>
+          <a href="#" class="report-footer-link"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+        </article>
+        <article class="report-card" data-status="pending">
+          <div class="report-top">
+            <span class="report-id">REP-83021-GZ</span>
+            <span class="report-status pending">🕘 قيد المراجعة</span>
+          </div>
+          <h4 class="report-title">نقطة شحن كهرباء "نور غزة"</h4>
+          <span class="report-date">🗓 تاريخ التقديم: 14-07-2026</span>
+          <div class="report-body"><strong>بلاغ عن:</strong> ساعات العمل خاطئة - النقطة بدأت بالفتح عند الساعة 10 صباحاً بدلاً من 9 بسبب عمليات صيانة الألواح.</div>
+          <a href="#" class="report-footer-link"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+        </article>
+      </div>
+    </div>
+
+    <!-- المعتمدة -->
+    <div class="tab-panel" id="approvedReports">
+      <div class="reports-grid">
+        <article class="report-card" data-status="approved">
+          <div class="report-top">
+            <span class="report-id">REP-74921-GZ</span>
+            <span class="report-status approved">✓ تم الاعتماد والنشر</span>
+          </div>
+          <h4 class="report-title">مخبز الأمل الآلي</h4>
+          <span class="report-date">🗓 تاريخ التقديم: 13-07-2026</span>
+          <div class="report-body"><strong>بلاغ عن:</strong> مزدحم جداً - طوابير الانتظار بتجاوز 250 شخص والانتظار لأكثر من 3 ساعات بالطابور الواحد.</div>
+          <a href="#" class="report-footer-link"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+        </article>
+        <article class="report-card" data-status="approved">
+          <div class="report-top">
+            <span class="report-id">REP-21849-GZ</span>
+            <span class="report-status approved">✓ تم الاعتماد والنشر</span>
+          </div>
+          <h4 class="report-title">مخبز العائلات اليدوي</h4>
+          <span class="report-date">🗓 تاريخ التقديم: 12-07-2026</span>
+          <div class="report-body"><strong>بلاغ عن:</strong> الخدمة متوقفة أو المخبز مغلق تماماً بسبب نفاذ الحطب والدقيق. وتأمل تحديث حالته لعدم قدوم المواطنين دون فائدة.</div>
+          <a href="#" class="report-footer-link"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+        </article>
+      </div>
+    </div>
+
+    <!-- المرفوضة -->
+    <div class="tab-panel" id="rejectedReports">
+      <div class="text-center" style="padding:60px 20px;color:var(--text-sub);">
+        <p style="font-size:14px;">لا توجد بلاغات مرفوضة حالياً 🎉</p>
+      </div>
+    </div>
+  </div>
+</main>
+
+
+<script src="../auth.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>

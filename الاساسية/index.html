@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>الرئيسية | وين الخدمة</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="container">
+    <div class="brand">
+      <img src="Logo.png" alt="">
+    </div>
+
+    <nav class="main-nav" aria-label="التنقل الرئيسي">
+    <a href="index.html">الرئيسية</a>
+      
+      <a href="explore.html">استكشاف الخدمات</a>
+      <a href="assistant.html">المساعد الذكي</a>
+      <a href="../step/step0.html">خدماتي</a>
+      <a href="../البلاغات/index.html">بلاغاتي</a> 
+
+
+    </nav>
+
+    <div class="header-actions">
+      <button class="icon-btn" aria-label="الإشعارات" data-loading-click="لا توجد إشعارات جديدة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        <span class="badge-dot"></span>
+      </button>
+      <a class="icon-btn" href="saved.html" aria-label="المفضلة">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
+      </a>
+
+      <div class="user-chip" data-dropdown-trigger="userMenu" tabindex="0" role="button" aria-haspopup="true" aria-expanded="false">
+        <img src="logo2.png" alt="صورة المستخدم">
+        <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+        <div class="dropdown-menu" id="userMenu">
+          <a href="profile.html">الملف الشخصي</a>
+          <a href="settings.html">الإعدادات</a>
+          <a href="my-services.html">خدماتي المضافة</a>
+          <button type="button" data-loading-click="تم تسجيل الخروج">تسجيل الخروج</button>
+        </div>
+      </div>
+
+      <button class="hamburger" data-hamburger aria-label="القائمة" aria-expanded="false"><span></span></button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ MOBILE DRAWER ============ -->
+<div class="drawer-overlay" data-drawer-overlay></div>
+<aside class="mobile-drawer" data-drawer>
+  <div class="brand"></div>
+  <nav>
+   <a href="index.html" class="active">الرئيسية</a>
+    <a href="my-services.html">خدماتي</a>
+    <a href="assistant.html">المساعد الذكي</a>
+    <a href="explore.html">استكشاف الخدمات</a>
+    <a href="reports.html">بلاغاتي</a>
+    <a href="profile.html">الملف الشخصي</a>
+    <a href="settings.html">الإعدادات</a> 
+  </nav>
+</aside>
+
+<main class="container">
+  
+  <section class="grid-2col" style="grid-template-columns:1fr 2fr;">
+    <div class="stat-card">
+      <h3>حصيلة التحديث الميداني اليوم</h3>
+      <div class="stat-row">
+        <div class="stat"><span class="num">25</span><span class="label">مرافق تم تحديثها</span></div>
+        <div class="stat alt"><span class="num">10</span><span class="label">مرافق متوفرة ومفتوحة</span></div>
+      </div>
+      <p class="stat-note">تعتمد المنصة بالكامل على المساهمات الميدانية للمواطنين. شارك ما لديك من معلومة كي يساهم بتحديث الحالة.</p>
+    </div>
+
+    <div class="hero-search">
+      <h3 class="green-title">منصة تضامنية شعبية نشطة</h3>
+      <h1>اعثر على أقرب خدمة أساسية ومفتوحة في غزة</h1>
+      <p>تساعدك منصة "وين الخدمة" في التحقق ميدانياً من ساعات عمل الصيدليات، المخازن، عيادات الطوارئ ونقاط تعبئة المياه وشحن الألواح الشمسية في محيطك قبل التوجه إليها.</p>
+      <div class="search-row">
+        <button class="btn btn-outline" type="button" data-open-location-modal>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          موقعي
+        </button>
+        <a class="btn btn-primary" href="explore.html">ابحث الآن</a>
+        <div class="search-field">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          <input type="text" placeholder="ابحث باسم المرفق (صيدلية، مخبز، نقطة شحن...)">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <h2 class="section-title">تصفح الخدمات حسب الفئة الميدانية</h2>
+  <div class="category-grid">
+    <a class="category-card" href="explore.html?cat=pharmacy"><span class="plus">+</span>صيدليات</a>
+    <a class="category-card" href="explore.html?cat=bakery"><span class="plus">+</span>مخابز</a>
+    <a class="category-card" href="explore.html?cat=water"><span class="plus">+</span>نقاط مياه</a>
+    <a class="category-card" href="explore.html?cat=hospital"><span class="plus">+</span>مستشفيات</a>
+    <a class="category-card" href="explore.html?cat=storage"><span class="plus">+</span>مساعدات</a>
+    <a class="category-card" href="explore.html?cat=power"><span class="plus">+</span>نقاط كهرباء</a>
+    
+    
+   
+   
+    
+  </div>
+
+  <section class="grid-2col">
+    <div id="nearbyFacilities">
+      <h2 class="section-title" style="margin-top:0;">أهم المرافق والخدمات المتاحة بقربك</h2>
+      <p style="font-size:13px;color:var(--text-sub);margin-bottom:14px;">صيدليات، مستشفيات، والعديد من الخدمات المتوفرة الموثقة</p>
+
+      <div class="services-grid">
+        <article class="service-card" data-category="pharmacy" data-service-id="svc-1">
+          <div class="service-thumb">
+            <img src="img/صيدلية العودة المركزية.png" alt="صيدلية العودة المركزية" >
+            <span class="service-tag">صيدلية</span>
+            <button class="fav-btn" data-service-id="svc-1" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+          </div>
+          
+          <div class="service-body">
+            
+            <div class="status-line status-open" style="color:#16A34A; border: 1px solid #a3f0bf;  border-radius: 20PX;  width: 100px; background:#DCFCE7; height: 30px; margin-left: 30px; "><span class="status-dot"></span> متوفر ومفتوح</div> 
+            
+            <h4 class="service-title">صيدلية العودة المركزية</h4>
+            <!-- <p class="div2">📍 يبعد حوالي 1.4 كم</p> -->
+            <p class="service-desc">توفر الأدوية الأساسية والمضادات الحيوية وحليب الأطفال ومستلزمات الإسعافات الأولية.</p>
+            <p class="service-meta"> الوسطى، دير البلح، وسط بلد - قرب مسجد البلد القديم</p>
+            <p class="service-meta">🕘 من 8:00 صباحاً حتى 6:00 مساءً</p>
+            
+            <div class="service-actions">
+              <button class="icon-btn" aria-label="مشاركة" data-loading-click="تم نسخ رابط المرفق"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+              <a class="btn btn-primary" href="explore.html?service=svc-1"> عرض التفاصيل</a>
+            </div>
+          </div>
+          <div class="service-foot"><span>مضافة بواسطة: مواطن مساهم</span><span>آخر تحديث: منذ 10 دقائق</span></div>
+        </article>
+
+        <article class="service-card" data-category="bakery">
+          <div class="service-thumb">
+            <img src="img/مخبز الأمل الآلي.png" alt="مخبز الامل الالي">
+            <span class="service-tag">مخبز</span>
+
+            <button class="fav-btn" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+          </div>
+          <div class="service-body" >
+            <div class="status-line status-open" style="color:#F59E0B; border: 1px solid #f5b74d;  border-radius: 20PX;  width: 100px; background:#FFFBEB; height: 30px; margin-left: 30px; " ><span class="status-dot" style="background:#f59e0b;"></span> مزدحم جداً</div>
+            <h4 class="service-title">مخبز الأمل الآلي</h4>
+            <p class="service-desc">يعمل بالطاقة الشمسية لإنتاج الخبز العادي والقمح. تتوفركميات يومية للأسر.</p>
+
+            <p class="service-meta">الوسطى. دير البلح.منطقة البيارة</p>
+            <p class="service-meta">🕘 من 7:00 صباحاً حتى 4:00 مساءً</p>
+            <div class="service-actions">
+              <button class="icon-btn" aria-label="مشاركة" data-loading-click="تم نسخ رابط المرفق"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+             <a class="btn btn-primary" href="explore.html"> عرض التفاصيل</a>
+            </div>
+          </div>
+          <div class="service-foot"><span>مضافة بواسطة: مواطن مساهم</span><span>آخر تحديث: منذ منذ ساعة</span></div>
+        </article>
+        
+
+         <article class="service-card" data-category="water" data-service-id="svc-3">
+          <div class="service-thumb">
+            <img src="img/محطة تحلية مياه اليرموك.png" alt=" محطة تحلية مياه اليرموك ">
+            <span class="service-tag">نقطة مياه</span>
+            <button class="fav-btn" data-service-id="svc-3" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+          </div>
+          
+          <div class="service-body">
+            <div class="status-line status-open" style="color:#16A34A; border: 1px solid #a3f0bf;  border-radius: 20PX;  width: 100px; background:#DCFCE7; height: 30px; margin-left: 30px; "><span class="status-dot"></span> متوفر ومفتوح</div> 
+            <h4 class="service-title"> محطة تحلية مياه اليرموك</h4>
+            <p class="service-desc">نقطة مجانية لتعبئة المياه الصالحة للشرب (المحلاة). تعمل بمولد طاقة عند الحاجة.</p>
+
+            <p class="service-meta">📍 غزة . غزة . الرمال الشمالي</p>
+            <p class="service-meta">🕘 من 9:00 صباحاً حتى 3:00 مساءً</p>
+            <div class="service-actions">
+              <button class="icon-btn" aria-label="مشاركة" data-loading-click="تم نسخ رابط المرفق"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+              <a class="btn btn-primary" href="explore.html?service=svc-3"> عرض التفاصيل</a>
+            </div>
+          </div>
+          <div class="service-foot"><span>مضافة بواسطة: مواطن مساهم</span><span>آخر تحديث منذ ساعتين</span></div>
+        </article>
+
+         <article class="service-card" data-category="power" data-service-id="svc-4">
+          <div class="service-thumb" >
+            <img src="img/نقطة شحن كهرباء _نور غزة_.png" alt="نقطة شحن كهرباء "نور غزة"">
+            <span class="service-tag">نقطة شحن كهرباء</span>
+            <button class="fav-btn" data-service-id="svc-4" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+          </div>
+          <div class="service-body">
+            <div class="status-line status-open" style="color:#16A34A; border: 1px solid #a3f0bf;  border-radius: 20PX;  width: 100px; background:#DCFCE7; height: 30px; margin-left: 30px; "><span class="status-dot"></span> متوفر ومفتوح</div>
+            <h4 class="service-title">نقطة شحن كهرباء "نور غزة"</h4>
+            <p class="service-desc">شحن الهواتف، البطاريات، والأجهزة الطبية باستخدام ألواح الطاقة الشمسية مجاناً للعائلات النازحة.</p>
+
+            <p class="service-meta">📍 الوسطى . النصيرات .مخيم2</p>
+            <p class="service-meta">🕘 من 9:00 صباحاً حتى 5:00 مساءً</p>
+            <div class="service-actions">
+              <button class="icon-btn" aria-label="مشاركة" data-loading-click="تم نسخ رابط المرفق"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+              <a class="btn btn-primary" href="explore.html?service=svc-4"> عرض التفاصيل</a>
+            </div>
+          </div>
+          <div class="service-foot"><span>مضافة بواسطة: مواطن مساهم</span><span>آخر تحديث: منذ 3 ساعات</span></div>
+        </article>
+      </div>
+
+      <div class="cta-banner">
+        <div>
+          <strong style="color: white;">هل تعرف صيدلية أو مخبز يعمل حالياً؟</strong>
+          <p>ساهم بنشرها وإرشاد العائلات فوراً</p>
+        </div>
+        <a class="btn btn-primary"  href="report.html">أضف خدمة الآن +</a>
+      </div>
+    </div>
+
+    <div id="nearbyMapCol">
+       <div class="map-panel">
+        <div class="flex items-center gap-8" style="justify-content:space-between;">
+          <h3>الخريطة التفاعلية لقطاع غزة</h3>
+          <a href="explore.html" aria-label="فتح الخريطة بالكامل">⤢</a>
+        </div>
+        <p class="hint">اضغط على المحافظة لتصفية الخدمات، أو اضغط على الدبابيس لمشاهدة التفاصيل.</p>
+        <div class="map-svg-wrap">
+          <div class="zoom-controls">
+            <button data-zoom="in" aria-label="تكبير">+</button>
+            <button data-zoom="out" aria-label="تصغير">−</button>
+          </div>
+          <svg viewBox="0 0 260 330" data-map-svg style="width:100%;height:260px;transition:transform .2s;">
+            <!-- رفح -->
+            <path class="map-region" data-name="رفح"
+              d="M128 18 C146 18 166 25 176 38 C184 49 180 60 168 70
+                 L148 86 L116 78 L108 56 L116 34 Z"></path>
+            <!-- خانيونس -->
+            <path class="map-region" data-name="خانيونس"
+              d="M116 78 L148 86 L158 108 L151 137 L132 154 L104 147
+                 L91 127 L96 103 Z"></path>
+            <!-- الوسطى -->
+            <path class="map-region" data-name="الوسطى"
+              d="M91 127 L104 147 L132 154 L136 184 L127 207 L99 215
+                 L78 198 L76 171 L82 148 Z"></path>
+            <!-- غزة -->
+            <path class="map-region" data-name="غزة"
+              d="M78 198 L99 215 L127 207 L137 226 L130 252 L107 267
+                 L82 260 L68 238 L69 216 Z"></path>
+            <!-- الشمال -->
+            <path class="map-region" data-name="الشمال"
+              d="M69 216 L82 260 L107 267 L111 288 L98 309 L70 307
+                 L54 292 L56 268 L62 242 Z"></path>
+
+            <!-- أسماء المحافظات -->
+            <text x="145" y="55" text-anchor="middle" class="map-label">رفح</text>
+            <text x="125" y="116" text-anchor="middle" class="map-label">خانيونس</text>
+            <text x="104" y="177" text-anchor="middle" class="map-label">الوسطى</text>
+            <text x="103" y="237" text-anchor="middle" class="map-label">غزة</text>
+            <text x="82" y="285" text-anchor="middle" class="map-label">الشمال</text>
+
+            <!-- دبابيس الحالة -->
+            <circle class="map-pin" data-name="رفح" cx="160" cy="43" r="5" fill="#22c55e"></circle>
+            <circle class="map-pin" data-name="رفح" cx="132" cy="67" r="5" fill="#f59e0b"></circle>
+
+            <circle class="map-pin" data-name="خانيونس" cx="105" cy="100" r="5" fill="#f59e0b"></circle>
+            <circle class="map-pin" data-name="خانيونس" cx="142" cy="126" r="5" fill="#ef4444"></circle>
+
+            <circle class="map-pin" data-name="الوسطى" cx="83" cy="151" r="5" fill="#ef4444"></circle>
+            <circle class="map-pin" data-name="الوسطى" cx="119" cy="188" r="5" fill="#22c55e"></circle>
+
+            <circle class="map-pin" data-name="غزة" cx="80" cy="223" r="5" fill="#22c55e"></circle>
+            <circle class="map-pin" data-name="غزة" cx="113" cy="247" r="5" fill="#f59e0b"></circle>
+
+            <circle class="map-pin" data-name="الشمال" cx="67" cy="273" r="5" fill="#f59e0b"></circle>
+            <circle class="map-pin" data-name="الشمال" cx="92" cy="298" r="5" fill="#9ca3af"></circle>
+          </svg>
+        </div>
+        <div class="map-legend">
+          <p style="font-weight:700;">حالة الخدمة:</p>
+          <div class="legend-item"><span class="legend-dot" style="background:#22c55e;"></span> متوفر ومفتوح</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span> مزدحم جداً</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#ef4444;"></span> مغلق مؤقتاً</div>
+          <div class="legend-item"><span class="legend-dot" style="background:#9ca3af;"></span> غير مؤكد حالياً</div>
+        </div>
+        <p class="map-note">⚠ تم تحديد الموقع افتراضياً لخدمة الأهالي والزائرين وتسهيل الوصول الميداني السريع.</p>
+      </div>
+        
+      <div class="mt-24" style="background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:18px;box-shadow:var(--shadow-card);">
+        <div class="flex items-center gap-8" style="justify-content:space-between;">
+          <h3 style="font-size:15px;font-weight:800;">المراكز المحفوظة بمفضلتك <span style="color:var(--color-accent-red);">♥</span></h3>
+          <a href="saved.html" class="btn btn-sm btn-ghost">عرض المفضلة</a>
+        </div>
+        <p style="font-size:12px;color:var(--text-sub);margin-top:6px;">لديك 3 مراكز تابع نشاطها وضعها بإستمرار</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- <footer class="site-footer">© 2024 وين الخدمة - منصة إرشادية للمساعدات الميدانية بقطاع غزة. جميع الحقوق محفوظة.</footer> -->
+
+<!-- ============ LOCATION MODAL ============ -->
+<div class="modal-overlay" id="locationModal">
+  <div class="modal-box">
+    <button class="modal-close" data-modal-close aria-label="إغلاق">×</button>
+    <h3>📍 تحديد المنطقة الميدانية يدوياً</h3>
+    <div class="form-group">
+      <label for="gov">المحافظة</label>
+      <div class="select-wrap">
+        <select id="gov">
+          <option value="">اختر المحافظة ...</option>
+          <option>الشمال</option><option>غزة</option><option>الوسطى</option><option>خانيونس</option><option>رفح</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="city">المدينة / البلدة</label>
+      <div class="select-wrap">
+        <select id="city">
+          <option value="">اختر المدينة ...</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary btn-block" type="button" data-manual-location-btn>تطبيق وتصفية المراكز القريبة</button>
+  </div>
+</div>
+
+<script src="../auth.js"></script>
+<script src="js/script.js"></script>
+</body>
+</html>
