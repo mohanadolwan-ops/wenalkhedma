@@ -5,6 +5,7 @@
    */
 
 document.addEventListener('DOMContentLoaded', () => {
+  syncWinDBServices();
   initMobileDrawer();
   initDropdowns();
   initActiveNav();
@@ -21,6 +22,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormValidation();
   initAssistantChat();
   initReportForm();
+  initServiceRequestSubmit();
+  initIssueReportModal();
   initLoadingButtons();
   initMapInteractions();
   initManualLocationCities();
@@ -32,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initProfileForm();
   initReportDetailLinks();
   renderSavedGrid();
+  injectReportButtons();
 });
 
 /*
@@ -768,6 +772,7 @@ function buildResultCard(service){
           <button class="fav-btn crc-fav${favActive}" data-service-id="${service.id}" aria-label="أضف للمفضلة">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg>
           </button>
+          <button class="icon-btn crc-report" data-report-issue="${service.id}" aria-label="إبلاغ عن مشكلة" title="إبلاغ عن مشكلة">🚩</button>
           <a class="crc-link" href="explore.html?service=${service.id}">تفاصيل الخدمة ‹</a>
         </div>
       </div>
@@ -805,6 +810,7 @@ function initAssistantChat(){
     wrap.innerHTML = matches.map(buildResultCard).join('');
     messages.appendChild(wrap);
     initFavorites(); // wire up the heart buttons on the newly-added cards
+    injectReportButtons();
     messages.scrollTop = messages.scrollHeight;
   }
 
@@ -1019,6 +1025,7 @@ function resetExploreFilters(){
 }
 
 function initExploreFilters(){
+  renderMissingServiceCards(); // add cards for any admin-approved services not baked into the HTML
   const applyBtn = document.getElementById('applyFiltersBtn');
   if(applyBtn) applyBtn.addEventListener('click', applyExploreFilters);
 
@@ -1330,4 +1337,216 @@ function renderSavedGrid(){
 
   initFavorites(); // wire up the re-rendered heart buttons
   initLoadingButtons();
+  injectReportButtons();
+}
+/* =========================================================
+   26. WinDB integration — links the public site to the shared
+   data layer (win-db.js) used by لوحة التحكم (admin dashboard).
+   Every page that includes win-db.js before this file benefits
+   from this automatically; pages without it are unaffected.
+   ========================================================= */
+function syncWinDBServices(){
+  if(typeof window.WinDB === 'undefined' || typeof SERVICES === 'undefined') return;
+  const db = WinDB.getDB();
+  const overrides = db.statusOverrides || {};
+  SERVICES.forEach(s => {
+    if(overrides[s.id]){
+      s.status = overrides[s.id].status;
+      s.statusLabel = overrides[s.id].statusLabel;
+    }
+  });
+  (db.dynamicServices || []).forEach(d => {
+    if(!SERVICES.find(s => s.id === d.id)){
+      SERVICES.push({
+        id: d.id, category: d.category, tag: d.tag || d.category,
+        status: d.status || 'open', statusLabel: d.statusLabel || 'متوفر ومفتوح',
+        title: d.title, gov: d.gov,
+        lat: 31.40 + (Math.random() - 0.5) * 0.18,
+        lng: 34.38 + (Math.random() - 0.5) * 0.22,
+        desc: d.desc || '', meta: d.meta || [], img: d.img || 'Logo.png'
+      });
+    }
+  });
+}
+
+/* Adds a card for every SERVICES entry not already present as static
+   HTML in #resultsGrid (i.e. services approved later by the admin
+   dashboard). Keeps the exact same classes the CSS/filters expect. */
+function renderMissingServiceCards(){
+  const grid = document.getElementById('resultsGrid');
+  if(!grid || typeof SERVICES === 'undefined') return;
+  SERVICES.forEach(s => {
+    if(grid.querySelector(`.service-card[data-service-id="${s.id}"]`)) return;
+    const art = document.createElement('article');
+    art.className = 'service-card';
+    art.setAttribute('data-category', s.category);
+    art.setAttribute('data-service-id', s.id);
+    art.innerHTML = `
+      <div class="service-thumb">
+        <img src="${s.img}" alt="${s.title}"><span class="service-tag">${s.tag}</span>
+        <button class="fav-btn" data-service-id="${s.id}" aria-label="أضف للمفضلة"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.6l-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1L12 21l7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.6z"/></svg></button>
+      </div>
+      <div class="service-body">
+        <div class="status-line status-${s.status}"><span class="status-dot"></span> ${s.statusLabel}</div>
+        <h4 class="service-title">${s.title}</h4>
+        <p class="service-desc">${s.desc}</p>
+        <p class="service-meta">📍 ${(s.meta && s.meta[0]) || s.gov || ''}</p>
+        <div class="service-actions">
+          <button class="icon-btn" data-loading-click="تم نسخ الرابط"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg></button>
+          <a href="explore.html?service=${s.id}" class="btn btn-primary">عرض التفاصيل</a>
+        </div>
+      </div>`;
+    grid.appendChild(art);
+  });
+  initFavorites();
+  initLoadingButtons();
+  injectReportButtons();
+}
+
+/* Injects a small 🚩 "report an issue" button into every service card's
+   action row (works for static AND JS-rendered cards) so a citizen can
+   flag a problem with an EXISTING service. This is what feeds the
+   "البلاغات" queue in لوحة التحكم. Safe to call multiple times. */
+function injectReportButtons(){
+  document.querySelectorAll('.service-actions').forEach(actions => {
+    if(actions.querySelector('[data-report-issue]')) return;
+    const card = actions.closest('.service-card');
+    if(!card) return;
+    const id = card.getAttribute('data-service-id');
+    if(!id) return;
+    const titleEl = card.querySelector('.service-title');
+    const btn = document.createElement('button');
+    btn.className = 'icon-btn';
+    btn.setAttribute('data-report-issue', id);
+    btn.setAttribute('title', 'إبلاغ عن مشكلة بهذه الخدمة');
+    btn.setAttribute('aria-label', 'إبلاغ عن مشكلة بهذه الخدمة');
+    btn.textContent = '🚩';
+    actions.insertBefore(btn, actions.firstChild);
+  });
+}
+
+/* ---------------------------------------------------------------------
+   Quick "report an issue with this service" modal — feeds WinDB.issueReports
+   which شows up live in لوحة التحكم › البلاغات
+   --------------------------------------------------------------------- */
+function ensureIssueReportModal(){
+  if(document.getElementById('issueReportModal')) return document.getElementById('issueReportModal');
+  const overlay = document.createElement('div');
+  overlay.className = 'modal-overlay';
+  overlay.id = 'issueReportModal';
+  overlay.innerHTML = `
+    <div class="modal-box" style="max-width:420px;background:#fff;border-radius:16px;padding:24px;margin:auto;">
+      <h3 style="font-size:16px;font-weight:900;margin-bottom:4px;">🚩 إبلاغ عن مشكلة</h3>
+      <p style="font-size:13px;color:var(--text-sub);margin-bottom:14px;" data-issue-service-name>—</p>
+      <div class="form-group full" style="margin-bottom:12px;">
+        <label style="font-size:13px;font-weight:700;">نوع المشكلة</label>
+        <select id="issueTypeSelect" style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:10px;margin-top:6px;">
+          <option value="closed">الخدمة مغلقة الآن</option>
+          <option value="overcrowded">مزدحم جداً</option>
+          <option value="wrong_hours">ساعات العمل غير صحيحة</option>
+          <option value="wrong_location">الموقع غير صحيح</option>
+          <option value="other">غير ذلك</option>
+        </select>
+      </div>
+      <div class="form-group full" style="margin-bottom:16px;">
+        <label style="font-size:13px;font-weight:700;">وصف مختصر (اختياري)</label>
+        <textarea id="issueDescInput" rows="3" placeholder="أضف أي تفاصيل تساعد فريق المراجعة..." style="width:100%;padding:10px;border:1.5px solid var(--border);border-radius:10px;margin-top:6px;"></textarea>
+      </div>
+      <div class="form-actions" style="display:flex;gap:10px;">
+        <button type="button" class="btn btn-primary btn-block" id="submitIssueReportBtn">إرسال البلاغ</button>
+        <button type="button" class="btn btn-outline btn-block" data-modal-close>إلغاء</button>
+      </div>
+    </div>`;
+  document.body.appendChild(overlay);
+  overlay.addEventListener('click', e => { if(e.target === overlay) closeModal(overlay); });
+  overlay.querySelector('[data-modal-close]').addEventListener('click', () => closeModal(overlay));
+  return overlay;
+}
+
+function initIssueReportModal(){
+  document.addEventListener('click', e => {
+    const trigger = e.target.closest('[data-report-issue]');
+    if(!trigger) return;
+    e.preventDefault();
+    const serviceId = trigger.getAttribute('data-report-issue');
+    const service = (typeof SERVICES !== 'undefined') ? SERVICES.find(s => s.id === serviceId) : null;
+    const modal = ensureIssueReportModal();
+    modal.setAttribute('data-current-service', serviceId);
+    modal.querySelector('[data-issue-service-name]').textContent = service ? `عن: ${service.title}` : '';
+    modal.querySelector('#issueDescInput').value = '';
+    openModal('issueReportModal');
+  });
+
+  document.addEventListener('click', e => {
+    if(e.target.id !== 'submitIssueReportBtn') return;
+    const modal = document.getElementById('issueReportModal');
+    const serviceId = modal.getAttribute('data-current-service');
+    const service = (typeof SERVICES !== 'undefined') ? SERVICES.find(s => s.id === serviceId) : null;
+    const typeSelect = modal.querySelector('#issueTypeSelect');
+    const issueType = typeSelect.value;
+    const issueLabel = typeSelect.options[typeSelect.selectedIndex].textContent;
+    const description = modal.querySelector('#issueDescInput').value.trim();
+
+    if(typeof WinDB === 'undefined'){ closeModal(modal); return; }
+
+    const priorityMap = { closed: ['high','عالية'], overcrowded: ['medium','متوسطة'], wrong_hours: ['low','منخفضة'], wrong_location: ['medium','متوسطة'], other: ['low','منخفضة'] };
+    const pr = priorityMap[issueType] || ['medium','متوسطة'];
+
+    WinDB.submitIssueReport({
+      serviceId: serviceId,
+      serviceName: service ? service.title : 'خدمة غير معروفة',
+      category: service ? service.category : 'general',
+      gov: service ? service.gov : '',
+      city: service && service.meta ? (service.meta[0] || '') : '',
+      issueType: issueType,
+      issueLabel: issueLabel,
+      description: description || issueLabel,
+      priority: pr[0],
+      priorityLabel: pr[1]
+    });
+
+    closeModal(modal);
+    showToast('تم إرسال بلاغك، سيقوم فريق المراجعة بالتحقق منه قريباً 🙏', 'success');
+  });
+}
+
+/* ---------------------------------------------------------------------
+   "Add a new facility" form (report.html) → WinDB.submitServiceRequest
+   This runs IN ADDITION TO the generic initFormValidation()/توست/redirect
+   handler already wired via [data-validate-form]; it only persists the
+   data when the same required fields are actually filled in.
+   --------------------------------------------------------------------- */
+function initServiceRequestSubmit(){
+  const form = document.querySelector('[data-report-form]');
+  if(!form || typeof WinDB === 'undefined') return;
+
+  const categoryLabels = {
+    pharmacy: 'صيدلية', hospital: 'عيادة / مستشفى', bakery: 'مخبز',
+    water: 'نقطة مياه', power: 'نقطة شحن كهرباء', storage: 'مخزن'
+  };
+
+  form.addEventListener('submit', () => {
+    const get = sel => { const el = form.querySelector(sel); return el ? el.value.trim() : ''; };
+    const category = get('input[name="category"]');
+    const name = get('#name');
+    const phone = get('#phone');
+    const email = get('#email');
+    const gov = get('#gov');
+    const addr = get('#addr');
+    const desc = get('#desc');
+    const workingNow = form.querySelector('.switch-row input[type="checkbox"]');
+    const photos = Array.from(form.querySelectorAll('.upload-preview img')).map(img => img.src);
+
+    // Minimal validity mirror of data-validate rules — only save if the
+    // required fields the user actually needs to fill are present.
+    const looksValid = category && name && /^0\d{8,9}$/.test(phone) && gov && addr && desc.length >= 10;
+    if(!looksValid) return;
+
+    WinDB.submitServiceRequest({
+      name: name, category: category, categoryLabel: categoryLabels[category] || category,
+      gov: gov, city: gov, address: addr, phone: phone, email: email,
+      desc: desc, workingNow: workingNow ? workingNow.checked : true,
+      photos: photos
+    });
+  });
 }

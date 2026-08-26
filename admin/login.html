@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>تسجيل الدخول | لوحة تحكم وين الخدمة</title>
+<link rel="stylesheet" href="../الاساسية/css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-login-wrap">
+  <div class="admin-login-card">
+    <div class="brand-box">
+      <div class="pin">📍</div>
+      <h1>وين الخدمة</h1>
+      <p>تسجيل الدخول إلى لوحة التحكم</p>
+    </div>
+
+    <div class="session-alert" id="sessionAlert" style="display:none;">
+      <span>⚠</span>
+      <span>انتهت الجلسة، يرجى تسجيل الدخول مرة أخرى للمتابعة.</span>
+    </div>
+
+    <div class="admin-form-card">
+      <form id="adminLoginForm">
+        <div class="form-group">
+          <label>البريد الإلكتروني <span class="req" style="color:var(--color-accent-red);">*</span></label>
+          <div class="input-ic-wrap">
+            <input type="email" id="adminEmail" placeholder="name@example.com" required>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z" opacity="0"/><path d="M22 6l-10 7L2 6"/><path d="M2 6h20v12H2z"/></svg>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>كلمة المرور <span class="req" style="color:var(--color-accent-red);">*</span></label>
+          <div class="input-ic-wrap">
+            <input type="password" id="adminPassword" placeholder="••••••••" required>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+          </div>
+        </div>
+        <div class="remember-row">
+          <label style="display:flex;align-items:center;gap:6px;"><input type="checkbox" id="rememberMe"> تذكرني</label>
+          <a href="#" style="color:var(--color-primary-dark);font-weight:700;" onclick="AdminUI.showToast('لا يوجد نظام استرجاع فعلي بعد — هذا نموذج أولي', 'default'); return false;">نسيت كلمة المرور؟</a>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block">
+          <span class="btn-label">تسجيل الدخول</span>
+          <span class="spinner">⏳</span>
+        </button>
+      </form>
+      <p class="demo-hint">
+        نظام دخول آمن ومشفّر 🔒 — بيانات دخول تجريبية:<br>
+        <b>admin@wainalkhidma.ps</b> / <b>Admin@123</b>
+      </p>
+    </div>
+  </div>
+</div>
+
+<script src="../win-db.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  if (new URLSearchParams(location.search).get('expired') === '1') {
+    document.getElementById('sessionAlert').style.display = 'flex';
+  }
+  if (WinDB.adminCurrentUser()) { window.location.replace('index.html'); }
+
+  document.getElementById('adminLoginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var btn = e.target.querySelector('[type="submit"]');
+    btn.classList.add('is-loading');
+    var email = document.getElementById('adminEmail').value;
+    var password = document.getElementById('adminPassword').value;
+    WinDB.adminLogin(email, password).then(function (session) {
+      btn.classList.remove('is-loading');
+      if (session) {
+        window.location.href = 'index.html';
+      } else {
+        AdminUI.showToast('البريد الإلكتروني أو كلمة المرور غير صحيحة', 'error');
+      }
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>البلاغات | لوحة تحكم وين الخدمة</title>
+<link rel="stylesheet" href="../الاساسية/css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="brand"><span class="pin">📍</span> وين الخدمة</div>
+    <nav class="admin-nav">
+      <a href="index.html" data-page="index.html"><span class="ic">🏠</span> نظرة عامة</a>
+      <a href="reports.html" data-page="reports.html"><span class="ic">🚩</span> البلاغات <span class="count" data-nav-count="reports">0</span></a>
+      <a href="service-requests.html" data-page="service-requests.html"><span class="ic">📥</span> طلبات الخدمات <span class="count" data-nav-count="requests">0</span></a>
+      <a href="#" data-soon><span class="ic">🏷️</span> الخدمات</a>
+      <a href="#" data-soon><span class="ic">👥</span> المستخدمون</a>
+      <a href="#" data-soon><span class="ic">🔖</span> التصنيفات</a>
+      <a href="#" data-soon><span class="ic">🛡️</span> المشرفون والصلاحيات</a>
+      <div class="nav-label">النظام</div>
+      <a href="#" data-soon><span class="ic">📈</span> التحليلات</a>
+      <a href="#" data-soon><span class="ic">🔔</span> الإشعارات</a>
+      <a href="#" data-soon><span class="ic">🕘</span> سجل النشاط</a>
+      <a href="#" data-soon><span class="ic">⚙️</span> الإعدادات</a>
+    </nav>
+    <div class="foot">
+      <img src="logo2.png" alt="">
+      <div class="who"><b data-admin-name>—</b><span data-admin-role>—</span></div>
+      <button data-admin-logout title="تسجيل الخروج">⏻</button>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-search">
+        <input type="text" id="topSearch" placeholder="ابحث في البلاغات...">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
+      <div class="spacer"></div>
+      <div class="top-actions">
+        <button class="icon-btn" title="الإشعارات">🔔</button>
+        <a href="../الاساسية/report.html" class="btn btn-primary btn-sm">+ إضافة خدمة</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="page-head">
+        <div>
+          <h1>إدارة البلاغات</h1>
+          <p>مراجعة بلاغات المستخدمين والتحقق من دقتها في قطاع غزة</p>
+        </div>
+        <div class="actions">
+          <button class="btn btn-outline" id="exportBtn">⬇ تصدير البيانات</button>
+        </div>
+      </div>
+
+      <div class="admin-tabs" id="tabs"></div>
+
+      <div class="filter-bar">
+        <div><label>المسؤول</label><select id="fAssignee"><option value="all">الكل</option></select></div>
+        <div><label>الأولوية</label><select id="fPriority"><option value="all">الكل</option></select></div>
+        <div><label>المحافظة</label><select id="fGov"><option value="all">الكل</option></select></div>
+        <div><label>نوع البلاغ</label><select id="fType"><option value="all">الكل</option></select></div>
+        <div><label>الحالة</label><select id="fStatus"><option value="all">الكل</option></select></div>
+        <div class="fb-actions">
+          <button class="btn btn-primary" id="applyFilters">تطبيق الفلاتر</button>
+          <button class="btn btn-outline" id="resetFilters">إعادة ضبط</button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>رقم البلاغ</th><th>الخدمة</th><th>نوع البلاغ</th><th>المنطقة</th>
+              <th>المبلغ</th><th>الأولوية</th><th>تاريخ الإرسال</th><th>الحالة</th><th>المسؤول</th><th>الإجراء</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+        <div class="pagination-bar">
+          <span id="pageInfo"></span>
+          <span></span>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../win-db.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  if (AdminUI.requireAdminAuth()) {
+    AdminUI.initSidebar();
+    AdminUI.initLogout();
+    AdminUI.initRowMenus();
+    document.querySelectorAll('[data-soon]').forEach(function (a) {
+      a.addEventListener('click', function (e) { e.preventDefault(); AdminUI.showToast('هذه الصفحة قيد التطوير 🚧'); });
+    });
+
+    var STATUS_LABELS = WinDB.STATUS_LABELS_MAP;
+    var currentStatus = 'all';
+    var currentFilters = {};
+
+    function buildTabs() {
+      var counts = WinDB.issueReportCounts();
+      var tabs = [['all', 'الكل']].concat(Object.keys(STATUS_LABELS).map(function (k) { return [k, STATUS_LABELS[k]]; }));
+      document.getElementById('tabs').innerHTML = tabs.map(function (t) {
+        return '<button data-tab="' + t[0] + '" class="' + (t[0] === currentStatus ? 'active' : '') + '">' + t[1] + ' (' + (counts[t[0]] || 0) + ')</button>';
+      }).join('');
+      document.querySelectorAll('[data-tab]').forEach(function (btn) {
+        btn.addEventListener('click', function () { currentStatus = btn.getAttribute('data-tab'); renderAll(); });
+      });
+    }
+
+    function buildFilterOptions() {
+      var all = WinDB.listIssueReports();
+      var assignees = Array.from(new Set(all.map(function (r) { return r.assignee; }).filter(Boolean)));
+      var govs = Array.from(new Set(all.map(function (r) { return r.gov; }).filter(Boolean)));
+      var types = Array.from(new Set(all.map(function (r) { return r.issueType; }).filter(Boolean)));
+      var typeLabels = {}; all.forEach(function (r) { typeLabels[r.issueType] = r.issueLabel; });
+
+      document.getElementById('fAssignee').innerHTML = '<option value="all">الكل</option><option value="unassigned">غير مسندة</option>' +
+        assignees.map(function (a) { return '<option value="' + a + '">' + a + '</option>'; }).join('');
+      document.getElementById('fGov').innerHTML = '<option value="all">الكل</option>' + govs.map(function (g) { return '<option value="' + g + '">' + g + '</option>'; }).join('');
+      document.getElementById('fType').innerHTML = '<option value="all">الكل</option>' + types.map(function (t) { return '<option value="' + t + '">' + typeLabels[t] + '</option>'; }).join('');
+      document.getElementById('fPriority').innerHTML = '<option value="all">الكل</option>' +
+        [['low', 'منخفضة'], ['medium', 'متوسطة'], ['high', 'عالية'], ['urgent', 'عاجلة']].map(function (p) { return '<option value="' + p[0] + '">' + p[1] + '</option>'; }).join('');
+      document.getElementById('fStatus').innerHTML = '<option value="all">الكل</option>' +
+        Object.keys(STATUS_LABELS).map(function (s) { return '<option value="' + s + '">' + STATUS_LABELS[s] + '</option>'; }).join('');
+    }
+
+    function renderTable() {
+      var filters = Object.assign({}, currentFilters, { status: currentStatus === 'all' ? (currentFilters.status || 'all') : currentStatus });
+      var list = WinDB.listIssueReports(filters);
+      document.getElementById('pageInfo').textContent = 'عرض 1–' + list.length + ' من أصل ' + list.length + ' بلاغ';
+      document.getElementById('tableBody').innerHTML = list.length ? list.map(function (r) {
+        return '<tr>' +
+          '<td><b>#' + r.id + '</b></td>' +
+          '<td class="wrap">' + r.serviceName + '</td>' +
+          '<td>' + r.issueLabel + '</td>' +
+          '<td>' + (r.city || r.gov) + '</td>' +
+          '<td><div class="avatar-chip"><span class="av">' + AdminUI.initials(r.submittedBy) + '</span>' + r.submittedBy + '</div></td>' +
+          '<td>' + AdminUI.priorityBadge(r.priority, r.priorityLabel) + '</td>' +
+          '<td>' + WinDB.timeAgo(r.submittedAt) + '</td>' +
+          '<td>' + AdminUI.statusBadge(r.status, r.statusLabel) + '</td>' +
+          '<td>' + (r.assignee || '<span style="color:var(--text-faint)">—</span>') + '</td>' +
+          '<td class="row-menu"><button class="row-menu-btn">⋮</button><div class="row-menu-list"><a href="report-review.html?id=' + r.id + '">عرض ومراجعة</a></div></td>' +
+          '</tr>';
+      }).join('') : '<tr><td colspan="10"><div class="empty-state">لا توجد بلاغات مطابقة لهذا الفلتر</div></td></tr>';
+    }
+
+    function renderAll() { buildTabs(); renderTable(); }
+
+    document.getElementById('applyFilters').addEventListener('click', function () {
+      currentFilters = {
+        assignee: document.getElementById('fAssignee').value,
+        priority: document.getElementById('fPriority').value,
+        gov: document.getElementById('fGov').value,
+        issueType: document.getElementById('fType').value,
+        status: document.getElementById('fStatus').value
+      };
+      renderTable();
+    });
+    document.getElementById('resetFilters').addEventListener('click', function () {
+      currentFilters = {};
+      ['fAssignee', 'fPriority', 'fGov', 'fType', 'fStatus'].forEach(function (id) { document.getElementById(id).value = 'all'; });
+      renderTable();
+    });
+    document.getElementById('topSearch').addEventListener('input', function (e) {
+      currentFilters.q = e.target.value; renderTable();
+    });
+    document.getElementById('exportBtn').addEventListener('click', function () {
+      var list = WinDB.listIssueReports(currentFilters);
+      var blob = new Blob([JSON.stringify(list, null, 2)], { type: 'application/json' });
+      var a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'reports-export.json'; a.click();
+    });
+
+    buildFilterOptions();
+    renderAll();
+  }
+</script>
+</body>
+</html>

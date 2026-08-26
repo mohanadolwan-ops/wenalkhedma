@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>نظرة عامة | لوحة تحكم وين الخدمة</title>
+<link rel="stylesheet" href="../الاساسية/css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="brand"><span class="pin">📍</span> وين الخدمة</div>
+    <nav class="admin-nav">
+      <a href="index.html" data-page="index.html"><span class="ic">🏠</span> نظرة عامة</a>
+      <a href="reports.html" data-page="reports.html"><span class="ic">🚩</span> البلاغات <span class="count" data-nav-count="reports">0</span></a>
+      <a href="service-requests.html" data-page="service-requests.html"><span class="ic">📥</span> طلبات الخدمات <span class="count" data-nav-count="requests">0</span></a>
+      <a href="#" data-soon><span class="ic">🏷️</span> الخدمات</a>
+      <a href="#" data-soon><span class="ic">👥</span> المستخدمون</a>
+      <a href="#" data-soon><span class="ic">🔖</span> التصنيفات</a>
+      <a href="#" data-soon><span class="ic">🛡️</span> المشرفون والصلاحيات</a>
+      <div class="nav-label">النظام</div>
+      <a href="#" data-soon><span class="ic">📈</span> التحليلات</a>
+      <a href="#" data-soon><span class="ic">🔔</span> الإشعارات</a>
+      <a href="#" data-soon><span class="ic">🕘</span> سجل النشاط</a>
+      <a href="#" data-soon><span class="ic">⚙️</span> الإعدادات</a>
+    </nav>
+    <div class="foot">
+      <img src="logo2.png" alt="">
+      <div class="who"><b data-admin-name>—</b><span data-admin-role>—</span></div>
+      <button data-admin-logout title="تسجيل الخروج">⏻</button>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-search">
+        <input type="text" placeholder="ابحث عن خدمة, بلاغ, أو مستخدم...">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
+      <div class="spacer"></div>
+      <div class="top-actions">
+        <button class="icon-btn" title="الإشعارات">🔔</button>
+        <a href="../الاساسية/report.html" class="btn btn-primary btn-sm">+ إضافة خدمة</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="page-head">
+        <div>
+          <h1>نظرة عامة</h1>
+          <p>متابعة أداء المنصة وأثرها الحقيقي في قطاع غزة</p>
+        </div>
+        <div class="actions">
+          <select style="padding:8px 14px;border-radius:999px;border:1.5px solid var(--admin-card-border);font-size:12.5px;">
+            <option>آخر 30 يوم</option>
+            <option>هذا الشهر</option>
+            <option>آخر 7 أيام</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="kpi-grid" id="kpiGrid"></div>
+
+      <div class="grid-3" style="grid-template-columns:1fr 2fr 1.2fr;">
+        <div class="card">
+          <h3>إجراءات سريعة</h3>
+          <p class="card-sub">مهام شائعة بضغطة واحدة</p>
+          <div class="quick-actions">
+            <button id="qaAddAdmin">🛡️ إضافة مشرف</button>
+            <a class="btn" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:var(--bg-muted);font-size:13px;font-weight:700;" href="../الاساسية/report.html">➕ إضافة خدمة</a>
+            <a class="btn" style="display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;background:var(--bg-muted);font-size:13px;font-weight:700;" href="service-requests.html">📥 عرض طلبات الخدمات</a>
+            <button id="qaReport">📤 إرسال تقرير</button>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-head">
+            <div><h3>نشاط المنصة</h3><p class="card-sub" style="margin-bottom:0;">الزيارات مقابل الطلبات خلال آخر 30 يوماً</p></div>
+          </div>
+          <div class="chart-box" id="lineChartBox"></div>
+          <div class="legend-row">
+            <span><span class="legend-dot" style="background:#1FA855;"></span> الزيارات</span>
+            <span><span class="legend-dot" style="background:#3b82f6;"></span> الطلبات والبلاغات</span>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>حالة الخدمات</h3>
+          <p class="card-sub">توزيع كل الخدمات المنشورة حسب حالتها الآن</p>
+          <div class="chart-box" id="donutChartBox" style="max-width:170px;margin:0 auto;"></div>
+          <div class="legend-row" id="donutLegend" style="justify-content:center;"></div>
+        </div>
+      </div>
+
+      <div class="grid-2">
+        <div class="card">
+          <h3>التوزيع الجغرافي (المحافظات)</h3>
+          <p class="card-sub">عدد الخدمات المسجّلة في كل محافظة</p>
+          <div class="chart-box" id="govChartBox"></div>
+        </div>
+        <div class="card">
+          <h3>الخدمات حسب التصنيف</h3>
+          <p class="card-sub">توزيع الخدمات حسب نوعها</p>
+          <div class="chart-box" id="catChartBox"></div>
+        </div>
+      </div>
+
+      <div class="grid-3">
+        <div class="card">
+          <h3>آخر البلاغات</h3>
+          <div class="list-simple" id="latestReportsList"></div>
+        </div>
+        <div class="card">
+          <h3>نشاط النظام</h3>
+          <div class="list-simple" id="activityList"></div>
+        </div>
+        <div class="card">
+          <h3>طلبات خدمات عاجلة</h3>
+          <div id="urgentList"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="../win-db.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  if (AdminUI.requireAdminAuth()) {
+    AdminUI.initSidebar();
+    AdminUI.initLogout();
+
+    document.querySelectorAll('[data-soon]').forEach(function (a) {
+      a.addEventListener('click', function (e) { e.preventDefault(); AdminUI.showToast('هذه الصفحة قيد التطوير 🚧', 'default'); });
+    });
+    document.getElementById('qaAddAdmin').addEventListener('click', function () {
+      var name = prompt('اسم المشرف الجديد:');
+      if (!name) return;
+      var email = prompt('البريد الإلكتروني:');
+      if (!email) return;
+      var db = WinDB.getDB();
+      db.adminUsers.push({ id: WinDB.uid('admin'), name: name, role: 'مشرف', email: email, passwordPlainSeed: 'Admin@123' });
+      WinDB.saveDB(db);
+      AdminUI.showToast('تمت إضافة المشرف. كلمة المرور المبدئية: Admin@123', 'success');
+    });
+    document.getElementById('qaReport').addEventListener('click', function () {
+      AdminUI.showToast('سيتم تجهيز تقرير قابل للتصدير في نسخة قادمة 🚧');
+    });
+
+    var stats = WinDB.getStats();
+    var accountsCount = 0;
+    try { accountsCount = (JSON.parse(localStorage.getItem('wask_accounts')) || []).length; } catch (e) {}
+    var svcStats = AdminUI.getMergedServiceStats();
+    var activeServices = svcStats.filter(function (s) { return s.status === 'open'; }).length;
+
+    var kpis = [
+      { label: 'المشرفون', value: WinDB.getDB().adminUsers.length, ic: '🛡️', bg: '#eef2ff', trend: '' },
+      { label: 'المستخدمون المسجلون', value: (8420 + accountsCount).toLocaleString('ar'), ic: '👥', bg: '#e8f7ee', trend: '+23% ↑', trendClass: 'up' },
+      { label: 'طلبات خدمات جديدة', value: stats.newRequests, ic: '⚠️', bg: '#fff3ec', trend: 'يحتاج مراجعة', trendClass: 'warn' },
+      { label: 'البلاغات قيد المراجعة', value: WinDB.issueReportCounts().in_review || 0, ic: '✅', bg: '#e8f7ee', trend: '' },
+      { label: 'الخدمات النشطة', value: activeServices, ic: '📶', bg: '#eef2ff', trend: '' },
+      { label: 'إجمالي الخدمات', value: svcStats.length, ic: '📊', bg: '#fdf0d8', trend: '+9.3% ↑', trendClass: 'up' }
+    ];
+    document.getElementById('kpiGrid').innerHTML = kpis.map(function (k) {
+      return '<div class="kpi-card"><div class="kpi-top"><span class="kpi-ic" style="background:' + k.bg + '">' + k.ic + '</span>' +
+        (k.trend ? '<span class="kpi-trend ' + (k.trendClass || '') + '">' + k.trend + '</span>' : '') + '</div>' +
+        '<div class="kpi-val">' + k.value + '</div><div class="kpi-label">' + k.label + '</div></div>';
+    }).join('');
+
+    var series = WinDB.getDB().activitySeries;
+    if (!series) {
+      var v = 320, r = 180; series = { visits: [], requests: [] };
+      for (var i = 0; i < 30; i++) {
+        v += Math.round((Math.random() - 0.35) * 40); r += Math.round((Math.random() - 0.4) * 25);
+        v = Math.max(150, v); r = Math.max(60, r);
+        series.visits.push(v); series.requests.push(r);
+      }
+      var db2 = WinDB.getDB(); db2.activitySeries = series; WinDB.saveDB(db2);
+    }
+    document.getElementById('lineChartBox').innerHTML = AdminUI.lineChart(series.visits, series.requests);
+
+    var byStatus = { open: 0, busy: 0, closed: 0 };
+    svcStats.forEach(function (s) { if (byStatus[s.status] !== undefined) byStatus[s.status]++; });
+    var donutData = [
+      { label: 'مفتوح', value: byStatus.open, color: AdminUI.STATUS_COLORS.open },
+      { label: 'مزدحم', value: byStatus.busy, color: AdminUI.STATUS_COLORS.busy },
+      { label: 'مغلق', value: byStatus.closed, color: AdminUI.STATUS_COLORS.closed }
+    ];
+    document.getElementById('donutChartBox').innerHTML = AdminUI.donutChart(donutData);
+    document.getElementById('donutLegend').innerHTML = donutData.map(function (d) {
+      return '<span><span class="legend-dot" style="background:' + d.color + '"></span>' + d.label + ' (' + d.value + ')</span>';
+    }).join('');
+
+    var byGov = {};
+    svcStats.forEach(function (s) { byGov[s.gov] = (byGov[s.gov] || 0) + 1; });
+    var govData = Object.keys(byGov).map(function (g) { return { label: g, value: byGov[g] }; });
+    document.getElementById('govChartBox').innerHTML = AdminUI.barChartVertical(govData);
+
+    var byCat = {};
+    svcStats.forEach(function (s) { byCat[s.category] = (byCat[s.category] || 0) + 1; });
+    var catData = Object.keys(byCat).map(function (c) { return { label: AdminUI.CATEGORY_LABELS[c] || c, value: byCat[c] }; })
+      .sort(function (a, b) { return b.value - a.value; });
+    document.getElementById('catChartBox').innerHTML = AdminUI.barChartHorizontal(catData);
+
+    var latestReports = WinDB.listIssueReports().slice(0, 5);
+    document.getElementById('latestReportsList').innerHTML = latestReports.length ? latestReports.map(function (r) {
+      return '<div class="list-row"><span class="row-ic">🚩</span><div class="row-txt"><b>' + r.serviceName + '</b> — ' + r.issueLabel +
+        '<br>' + AdminUI.statusBadge(r.status, r.statusLabel) + '</div><span class="row-time">' + WinDB.timeAgo(r.submittedAt) + '</span></div>';
+    }).join('') : '<div class="empty-state">لا توجد بلاغات بعد</div>';
+
+    var activity = WinDB.getDB().activityLog.slice(0, 6);
+    var iconMap = { check: '✅', x: '❌', user: '👤', bolt: '⚡', plus: '➕', flag: '🚩' };
+    document.getElementById('activityList').innerHTML = activity.length ? activity.map(function (a) {
+      return '<div class="list-row"><span class="row-ic">' + (iconMap[a.icon] || '🔔') + '</span><div class="row-txt">' + a.text + '</div><span class="row-time">' + WinDB.timeAgo(a.at) + '</span></div>';
+    }).join('') : '<div class="empty-state">لا يوجد نشاط بعد</div>';
+
+    var urgent = WinDB.listServiceRequests({ status: 'new' }).filter(function (r) { return r.priority === 'high' || r.priority === 'urgent'; }).slice(0, 3);
+    document.getElementById('urgentList').innerHTML = urgent.length ? urgent.map(function (r) {
+      return '<div class="urgent-card"><b>' + r.name + '</b> — ' + r.gov + '<p>' + r.desc.slice(0, 60) + '…</p>' +
+        '<div class="urgent-actions"><button class="btn btn-outline" data-quick-reject="' + r.id + '">رفض</button>' +
+        '<button class="btn btn-primary" data-quick-approve="' + r.id + '">قبول</button></div></div>';
+    }).join('') : '<div class="empty-state">لا توجد طلبات عاجلة حالياً 🎉</div>';
+
+    document.getElementById('urgentList').addEventListener('click', function (e) {
+      var appBtn = e.target.closest('[data-quick-approve]');
+      var rejBtn = e.target.closest('[data-quick-reject]');
+      if (appBtn) { WinDB.updateServiceRequestStatus(appBtn.getAttribute('data-quick-approve'), 'approved', 'قبول سريع من نظرة عامة'); location.reload(); }
+      if (rejBtn) { WinDB.updateServiceRequestStatus(rejBtn.getAttribute('data-quick-reject'), 'rejected', 'رفض سريع من نظرة عامة'); location.reload(); }
+    });
+  }
+</script>
+</body>
+</html>

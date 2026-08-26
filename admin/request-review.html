@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مراجعة طلب خدمة | لوحة تحكم وين الخدمة</title>
+<link rel="stylesheet" href="../الاساسية/css/style.css">
+<link rel="stylesheet" href="css/admin.css">
+</head>
+<body class="admin-body">
+
+<div class="admin-shell">
+  <aside class="admin-sidebar">
+    <div class="brand"><span class="pin">📍</span> وين الخدمة</div>
+    <nav class="admin-nav">
+      <a href="index.html" data-page="index.html"><span class="ic">🏠</span> نظرة عامة</a>
+      <a href="reports.html" data-page="reports.html"><span class="ic">🚩</span> البلاغات <span class="count" data-nav-count="reports">0</span></a>
+      <a href="service-requests.html" data-page="service-requests.html"><span class="ic">📥</span> طلبات الخدمات <span class="count" data-nav-count="requests">0</span></a>
+      <a href="#" data-soon><span class="ic">🏷️</span> الخدمات</a>
+      <a href="#" data-soon><span class="ic">👥</span> المستخدمون</a>
+      <a href="#" data-soon><span class="ic">🔖</span> التصنيفات</a>
+      <a href="#" data-soon><span class="ic">🛡️</span> المشرفون والصلاحيات</a>
+      <div class="nav-label">النظام</div>
+      <a href="#" data-soon><span class="ic">📈</span> التحليلات</a>
+      <a href="#" data-soon><span class="ic">🔔</span> الإشعارات</a>
+      <a href="#" data-soon><span class="ic">🕘</span> سجل النشاط</a>
+      <a href="#" data-soon><span class="ic">⚙️</span> الإعدادات</a>
+    </nav>
+    <div class="foot">
+      <img src="logo2.png" alt="">
+      <div class="who"><b data-admin-name>—</b><span data-admin-role>—</span></div>
+      <button data-admin-logout title="تسجيل الخروج">⏻</button>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <div class="admin-search">
+        <input type="text" placeholder="ابحث...">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
+      </div>
+      <div class="spacer"></div>
+      <div class="top-actions">
+        <button class="icon-btn" title="الإشعارات">🔔</button>
+        <a href="../الاساسية/report.html" class="btn btn-primary btn-sm">+ إضافة خدمة</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <div class="breadcrumb"><a href="service-requests.html">طلبات الخدمات</a> ‹ <span id="bcId">...</span></div>
+      <div id="reviewRoot"></div>
+    </main>
+  </div>
+</div>
+
+<script src="../win-db.js"></script>
+<script src="js/admin.js"></script>
+<script>
+  if (AdminUI.requireAdminAuth()) {
+    AdminUI.initSidebar();
+    AdminUI.initLogout();
+    document.querySelectorAll('[data-soon]').forEach(function (a) {
+      a.addEventListener('click', function (e) { e.preventDefault(); AdminUI.showToast('هذه الصفحة قيد التطوير 🚧'); });
+    });
+
+    var id = new URLSearchParams(location.search).get('id');
+    var req = id ? WinDB.getServiceRequest(id) : null;
+
+    if (!req) {
+      document.getElementById('reviewRoot').innerHTML = '<div class="card"><div class="empty-state">لم يتم العثور على هذا الطلب. <a href="service-requests.html">العودة لقائمة الطلبات</a></div></div>';
+    } else {
+      document.getElementById('bcId').textContent = 'طلب #' + req.id;
+
+      document.getElementById('reviewRoot').innerHTML =
+        '<h1 style="font-size:20px;font-weight:900;margin-bottom:2px;">مراجعة طلب إضافة خدمة</h1>' +
+        '<p style="font-size:12.5px;color:var(--text-sub);margin-bottom:16px;">تحقّق من بيانات المرفق المُقترح قبل نشره على الخريطة العامة</p>' +
+        '<div class="review-grid">' +
+          '<div>' +
+            '<div class="card" style="margin-bottom:14px;">' +
+              '<h3 style="margin-bottom:12px;">اتخاذ قرار</h3>' +
+              '<textarea class="decision-textarea" id="decisionNote" placeholder="أضف ملاحظة للقبول أو الرفض..."></textarea>' +
+              '<div class="decision-actions">' +
+                '<button class="btn btn-primary" id="btnApprove">✅ قبول الطلب ونشر الخدمة</button>' +
+                '<button class="btn btn-outline" id="btnReject" style="border-color:#f3b9b9;color:#b02a2a;">✖ رفض الطلب</button>' +
+                '<button class="btn btn-outline" id="btnInfo">✉ طلب معلومات إضافية</button>' +
+              '</div>' +
+            '</div>' +
+            '<div class="card">' +
+              '<h3 style="margin-bottom:10px;">حالة الطلب الحالية</h3>' +
+              AdminUI.statusBadge(req.status, req.statusLabel) +
+              '<p style="font-size:12.5px;color:var(--text-sub);margin-top:8px;">قُدّم بواسطة: ' + req.submittedBy + '</p>' +
+            '</div>' +
+          '</div>' +
+
+          '<div>' +
+            '<div class="card" style="margin-bottom:14px;">' +
+              '<div class="card-head"><h3>بيانات المرفق المقترح</h3>' + AdminUI.priorityBadge(req.priority, req.priorityLabel) + '</div>' +
+              '<div class="detail-row"><span>اسم المرفق</span><span><b>' + req.name + '</b></span></div>' +
+              '<div class="detail-row"><span>نوع الخدمة</span><span>' + (req.categoryLabel || req.category) + '</span></div>' +
+              '<div class="detail-row"><span>المحافظة</span><span>' + req.gov + '</span></div>' +
+              '<div class="detail-row"><span>العنوان التفصيلي</span><span>' + req.address + '</span></div>' +
+              '<div class="detail-row"><span>رقم التواصل</span><span>' + req.phone + '</span></div>' +
+              (req.email ? '<div class="detail-row"><span>البريد الإلكتروني</span><span>' + req.email + '</span></div>' : '') +
+              '<div class="detail-row"><span>يعمل حالياً؟</span><span>' + (req.workingNow ? 'نعم ✅' : 'لا ❌') + '</span></div>' +
+              '<p style="font-size:13px;margin-top:10px;background:var(--bg-muted);padding:12px;border-radius:10px;">' + req.desc + '</p>' +
+              (req.photos && req.photos.length ? '<div class="photo-strip">' + req.photos.map(function (p) { return '<img src="' + p + '">'; }).join('') + '</div>' : '') +
+            '</div>' +
+
+            '<div class="card">' +
+              '<h3 style="margin-bottom:10px;">سجل الحالة</h3>' +
+              '<div class="timeline">' + req.history.map(function (h) {
+                return '<div class="t-item"><span class="t-dot"></span><div><div class="t-txt">' + (h.note || h.action) + ' — <b>' + h.by + '</b></div><div class="t-time">' + WinDB.timeAgo(h.at) + '</div></div></div>';
+              }).join('') + '</div>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
+
+      function decide(status, defaultNote, successMsg) {
+        var note = document.getElementById('decisionNote').value.trim() || defaultNote;
+        WinDB.updateServiceRequestStatus(req.id, status, note, WinDB.adminCurrentUser().name);
+        AdminUI.showToast(successMsg, 'success');
+        setTimeout(function () { window.location.href = 'service-requests.html'; }, 900);
+      }
+      document.getElementById('btnApprove').addEventListener('click', function () {
+        decide('approved', 'تم قبول الطلب ونشر الخدمة.', 'تم نشر الخدمة! ستظهر الآن في صفحة استكشاف الخدمات على الموقع 🎉');
+      });
+      document.getElementById('btnReject').addEventListener('click', function () { decide('rejected', 'تم رفض الطلب.', 'تم رفض الطلب.'); });
+      document.getElementById('btnInfo').addEventListener('click', function () { decide('needs_info', 'بحاجة لمعلومات إضافية من مقدّم الطلب.', 'تم طلب معلومات إضافية.'); });
+    }
+  }
+</script>
+</body>
+</html>
