@@ -204,6 +204,15 @@ button{ cursor:pointer; border:none; background:none; }
 #nearbyMapCol{ order:1; }
 #nearbyFacilities{ order:2; }
 
+/* Swap the two hero boxes visually only (HTML/DOM order stays untouched):
+   the search box (bigger) moves to the right, the stats box (smaller)
+   moves to the left. Scoped with :has() so ONLY this specific section
+   (the one containing .stat-card) is affected — the other .grid-2col
+   section further down the page (map + facilities list) is untouched. */
+.grid-2col:has(.stat-card){ grid-template-columns:2fr 1fr !important; }
+.stat-card{ order:2; }
+.hero-search{ order:1; }
+
 /* ---------- Category grid ---------- */
 .section-title{ font-size:18px; font-weight:800; margin:32px 0 16px; }
 .category-grid{ display:grid; grid-template-columns:repeat(6,1fr); gap:14px; }
