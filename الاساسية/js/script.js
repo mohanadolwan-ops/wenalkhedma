@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', () => {
   initReportDetailLinks();
   renderSavedGrid();
   injectReportButtons();
+  renderMyReports();
+  renderMyServiceRequests();
 });
 
 /*
@@ -1029,13 +1031,16 @@ function initExploreFilters(){
   const applyBtn = document.getElementById('applyFiltersBtn');
   if(applyBtn) applyBtn.addEventListener('click', applyExploreFilters);
 
-  ['fCat', 'fGov', 'fStatus'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.addEventListener('change', applyExploreFilters);
-  });
-
+  // Filters (category / governorate / status / distance) intentionally do
+  // NOT auto-apply on change — they only take effect when the user presses
+  // "تطبيق الفلاتر", so browsing the dropdowns never shifts the results
+  // or the map underneath them. We still update the "XX كم" label live so
+  // the slider feels responsive, without touching the results themselves.
   const range = document.querySelector('.filters-panel input[type="range"]');
-  if(range) range.addEventListener('input', applyExploreFilters);
+  const rangeOut = document.getElementById('rangeOut');
+  if(range && rangeOut){
+    range.addEventListener('input', () => { rangeOut.textContent = `${range.value} كم`; });
+  }
 
   const searchInput = document.querySelector('[data-search-input]');
   if(searchInput) searchInput.addEventListener('input', applyExploreFilters);
@@ -1549,4 +1554,148 @@ function initServiceRequestSubmit(){
       photos: photos
     });
   });
+}
+
+/* =========================================================
+   27. "بلاغاتي" (reports.html) — renders the CURRENT user's own
+   issue reports (submitted via the 🚩 button on service cards)
+   straight from WinDB, replacing the old static demo cards.
+   ========================================================= */
+function bucketReportStatus(status){
+  if(status === 'approved') return 'approved';
+  if(status === 'rejected') return 'rejected';
+  return 'pending'; // new / in_review / needs_info / escalated
+}
+
+function myReportCardHTML(r){
+  const bucket = bucketReportStatus(r.status);
+  const badge = bucket === 'approved'
+    ? '<span class="report-status approved">✓ تم الاعتماد والنشر</span>'
+    : bucket === 'rejected'
+      ? '<span class="report-status rejected">✕ تم الرفض</span>'
+      : '<span class="report-status pending">🕘 قيد المراجعة</span>';
+  const lastNote = r.history && r.history.length > 1 ? r.history[r.history.length - 1].note : '';
+  return `
+    <article class="report-card" data-status="${bucket}" data-report-id="${r.id}">
+      <div class="report-top">
+        <span class="report-id">#${r.id}</span>
+        ${badge}
+      </div>
+      <h4 class="report-title">${r.serviceName}</h4>
+      <span class="report-date">🗓 تاريخ التقديم: ${WinDB.fmtDate(r.submittedAt)}</span>
+      <div class="report-body"><strong>بلاغ عن:</strong> ${r.issueLabel}${r.description ? ' — ' + r.description : ''}</div>
+      <a href="#" class="report-footer-link" data-report-detail="${r.id}"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+    </article>`;
+}
+
+function reportsPanelHTML(list, emptyMsg){
+  if(!list.length){
+    return `<div class="text-center" style="padding:60px 20px;color:var(--text-sub);"><p style="font-size:14px;">${emptyMsg}</p></div>`;
+  }
+  return `<div class="reports-grid">${list.map(myReportCardHTML).join('')}</div>`;
+}
+
+function renderMyReports(){
+  const wrap = document.getElementById('reportsWrap');
+  if(!wrap || typeof WinDB === 'undefined') return;
+
+  const all = WinDB.myIssueReports().slice().sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+  const groups = {
+    all: all,
+    pending: all.filter(r => bucketReportStatus(r.status) === 'pending'),
+    approved: all.filter(r => bucketReportStatus(r.status) === 'approved'),
+    rejected: all.filter(r => bucketReportStatus(r.status) === 'rejected')
+  };
+
+  const tabsBar = document.querySelector('[data-tabs][data-tabs-target="#reportsWrap"]');
+  if(tabsBar){
+    const setLabel = (tab, text) => { const b = tabsBar.querySelector(`[data-tab="${tab}"]`); if(b) b.textContent = text; };
+    setLabel('allReports', `الكل (${groups.all.length})`);
+    setLabel('pendingReports', `قيد التدقيق (${groups.pending.length})`);
+    setLabel('approvedReports', `المعتمدة (${groups.approved.length})`);
+    setLabel('rejectedReports', `المرفوضة (${groups.rejected.length})`);
+  }
+
+  const setPanel = (id, list, emptyMsg) => {
+    const el = document.getElementById(id);
+    if(el) el.innerHTML = reportsPanelHTML(list, emptyMsg);
+  };
+  setPanel('allReports', groups.all, 'لم تقدّم أي بلاغ بعد. استخدم زر 🚩 الموجود على أي بطاقة خدمة لتقديم أول بلاغ.');
+  setPanel('pendingReports', groups.pending, 'لا توجد بلاغات قيد المراجعة حالياً.');
+  setPanel('approvedReports', groups.approved, 'لا توجد بلاغات معتمدة بعد.');
+  setPanel('rejectedReports', groups.rejected, 'لا توجد بلاغات مرفوضة حالياً 🎉');
+
+  wrap.addEventListener('click', e => {
+    const link = e.target.closest('[data-report-detail]');
+    if(!link) return;
+    e.preventDefault();
+    const report = all.find(r => r.id === link.getAttribute('data-report-detail'));
+    if(!report) return;
+    const lastNote = report.history && report.history.length ? report.history[report.history.length - 1].note : '';
+    showToast(lastNote ? `آخر تحديث من فريق المراجعة: ${lastNote}` : 'لا يوجد رد ميداني إضافي بعد، سيتم إشعارك فور التحديث.');
+  });
+}
+
+/* =========================================================
+   28. "خدماتي المضافة" (my-services.html) — renders the CURRENT
+   user's own submitted facility requests straight from WinDB.
+   ========================================================= */
+function myServiceMiniCardHTML(r){
+  const bucket = bucketReportStatus(r.status);
+  const tagStyle = bucket === 'approved' ? ''
+    : bucket === 'rejected' ? ' style="background:#fde3e3;color:#b42318;"'
+    : ' style="background:#fff3d6;color:#8a6100;"';
+  const tagLabel = bucket === 'approved' ? '✓ معتمد ومنشور للعامة'
+    : bucket === 'rejected' ? '✕ مرفوض' : '⏳ قيد المراجعة';
+  const rejectNote = bucket === 'rejected' && r.history && r.history.length
+    ? `<p style="font-size:12px;color:#b42318;margin-top:6px;">سبب الرفض: ${r.history[r.history.length - 1].note}</p>` : '';
+  const manageBtn = bucket === 'approved'
+    ? `<button class="btn btn-outline btn-block" data-loading-click="تم فتح إدارة الحالة">📍 إدارة وتعديل حالة الخدمة</button>` : '';
+  return `
+    <div class="mini-card">
+      <div class="mini-tags"><span class="status-tag"${tagStyle}>${tagLabel}</span><span class="type-tag">${r.categoryLabel || r.category}</span></div>
+      <h4>${r.name}</h4>
+      <p>${r.desc}</p>
+      <p class="addr">📍 العنوان: ${r.gov}${r.address ? ' - ' + r.address : ''}</p>
+      ${rejectNote}
+      ${manageBtn}
+    </div>`;
+}
+
+function myServicesPanelHTML(list, emptyMsg){
+  if(!list.length){
+    return `<p class="mt-16" style="color:var(--text-sub);font-size:13px;">${emptyMsg}</p>`;
+  }
+  return `<div class="my-services-grid">${list.map(myServiceMiniCardHTML).join('')}</div>`;
+}
+
+function renderMyServiceRequests(){
+  const wrap = document.getElementById('myServicesWrap');
+  if(!wrap || typeof WinDB === 'undefined') return;
+
+  const all = WinDB.myServiceRequests().slice().sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+  const groups = {
+    all: all,
+    approved: all.filter(r => bucketReportStatus(r.status) === 'approved'),
+    pending: all.filter(r => bucketReportStatus(r.status) === 'pending'),
+    rejected: all.filter(r => bucketReportStatus(r.status) === 'rejected')
+  };
+
+  const tabsBar = document.querySelector('[data-tabs][data-tabs-target="#myServicesWrap"]');
+  if(tabsBar){
+    const setLabel = (tab, text) => { const b = tabsBar.querySelector(`[data-tab="${tab}"]`); if(b) b.textContent = text; };
+    setLabel('allPanel', `الكل (${groups.all.length})`);
+    setLabel('approvedPanel', `معتمد ومنشور (${groups.approved.length})`);
+    setLabel('pendingPanel', `قيد المراجعة (${groups.pending.length})`);
+    setLabel('rejectedPanel', `مرفوضة (${groups.rejected.length})`);
+  }
+
+  const setPanel = (id, list, emptyMsg) => {
+    const el = document.getElementById(id);
+    if(el) el.innerHTML = myServicesPanelHTML(list, emptyMsg);
+  };
+  setPanel('allPanel', groups.all, 'لم تقترح أي مرفق بعد. اضغط "+ إضافة مرفق جديد" لتبدأ.');
+  setPanel('approvedPanel', groups.approved, 'لا يوجد مرافق معتمدة ومنشورة بعد.');
+  setPanel('pendingPanel', groups.pending, 'لا يوجد مرافق قيد المراجعة حالياً.');
+  setPanel('rejectedPanel', groups.rejected, 'لا يوجد مرافق مرفوضة 🎉');
 }
