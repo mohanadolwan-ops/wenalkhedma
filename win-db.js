@@ -1,36 +1,12 @@
 /*
-  ============================================================================
-  WIN AL-KHIDMEH (وين الخدمة) — Shared Data Layer
-  ============================================================================
-  This file simulates a real backend + database for the whole project using
-  the browser's localStorage as storage. It is loaded on every page (both the
-  public site and the admin dashboard) BEFORE any other script, and exposes
-  a single global object: window.WinDB
 
-  Collections:
-    - serviceRequests : "طلبات الخدمات"  (users submitting a brand new facility)
-    - issueReports    : "البلاغات"        (users reporting a problem with an
-                                            existing/published facility)
-    - services        : dynamic services created after a request is approved,
-                        plus status overrides applied to the static demo
-                        SERVICES array declared in الأساسية/js/script.js
-    - notifications   : simple notification feed for the admin dashboard
-    - activityLog     : human-readable system activity feed
-    - adminUsers      : admin accounts (separate from public WinAuth accounts)
-
-  Nothing here talks to a real server — it is a faithful simulation so the
-  whole project (public site + admin dashboard) stays fully interactive while
-  remaining pure HTML/CSS/JavaScript with no backend, exactly as requested.
-  ============================================================================
 */
 (function (window) {
   "use strict";
 
   var STORE_KEY = "winKhidmeh:db:v1";
 
-  /* ---------------------------------------------------------------------
-     Low level storage helpers
-     --------------------------------------------------------------------- */
+
   function readStore() {
     try {
       var raw = localStorage.getItem(STORE_KEY);
@@ -73,9 +49,7 @@
     return "منذ " + days + " " + (days === 1 ? "يوم" : "أيام");
   }
 
-  /* ---------------------------------------------------------------------
-     Current user helpers (reads from WinAuth session set by auth.js)
-     --------------------------------------------------------------------- */
+
   function currentUser() {
     try {
       var raw = localStorage.getItem("wask_auth_session");
@@ -128,40 +102,8 @@
       }
     ];
 
-    // Pad with a few more lightweight demo rows so tabs/counters feel real.
-    var extraStatuses = [
-      ["new", "جديدة"], ["needs_info", "تحتاج معلومات"], ["rejected", "مرفوضة"],
-      ["escalated", "محولة للأدمن"], ["in_review", "قيد المراجعة"], ["approved", "مقبولة"]
-    ];
-    var extraTypes = [["overcrowded", "مزدحم جداً"], ["closed", "الخدمة مغلقة"], ["wrong_hours", "ساعات العمل غير صحيحة"]];
-    var extraNames = ["صيدلية الرحمة", "مخزن الإغاثة المركزي", "نقطة شحن نور غزة", "مخبز الصمود", "عيادة الشفاء"];
-    for (var i = 0; i < 15; i++) {
-      var st = extraStatuses[i % extraStatuses.length];
-      var ty = extraTypes[i % extraTypes.length];
-      issueReports.push({
-        id: "REP-" + (1200 - i), serviceId: "svc-" + ((i % 5) + 1), serviceName: extraNames[i % extraNames.length],
-        category: "general", gov: ["غزة", "خانيونس", "رفح", "الوسطى", "الشمال"][i % 5],
-        city: "منطقة تجريبية", issueType: ty[0], issueLabel: ty[1],
-        description: "بيانات تجريبية لبلاغ رقم " + (1200 - i) + " لأغراض العرض التوضيحي للوحة التحكم.",
-        photos: [], priority: ["low", "medium", "high", "urgent"][i % 4],
-        priorityLabel: ["منخفضة", "متوسطة", "عالية", "عاجلة"][i % 4],
-        status: st[0], statusLabel: st[1],
-        submittedBy: "مستخدم تجريبي " + (i + 1), submittedByPhone: "0590000" + (100 + i),
-        assignee: i % 3 === 0 ? null : "خالد حسن", submittedAt: new Date(t - (i + 2) * h * 3).toISOString(),
-        history: [{ action: "submitted", note: "تم إرسال البلاغ", by: "مستخدم تجريبي", at: new Date(t - (i + 2) * h * 3).toISOString() }]
-      });
-    }
-
+   
     var serviceRequests = [
-      {
-        id: "SR-5021", name: "صيدلية الشفاء المركزية", category: "pharmacy", categoryLabel: "صيدلية",
-        gov: "غزة", city: "غزة - حي الرمال", address: "شارع الوحدة، مقابل مسجد السبيل",
-        phone: "0592345678", email: "", desc: "صيدلية تقدم أدوية الأمراض المزمنة والمسكنات الأساسية.",
-        workingNow: true, photos: [], priority: "medium", priorityLabel: "متوسطة",
-        status: "new", statusLabel: "جديدة",
-        submittedBy: "دلع سالم", assignee: null, submittedAt: new Date(t - 1 * h).toISOString(),
-        history: [{ action: "submitted", note: "تم إرسال الطلب", by: "دلع سالم", at: new Date(t - 1 * h).toISOString() }]
-      },
       {
         id: "SR-5020", name: "مخبز القدس الاقتصادي", category: "bakery", categoryLabel: "مخبز",
         gov: "خانيونس", city: "خانيونس - حي القدس", address: "شارع المدارس",
@@ -181,25 +123,6 @@
         history: [{ action: "submitted", note: "تم إرسال الطلب", by: "سامي حسين", at: new Date(t - 2 * d).toISOString() }]
       }
     ];
-    var srStatuses = [["new", "جديدة"], ["in_review", "قيد المراجعة"], ["approved", "معتمدة"], ["rejected", "مرفوضة"], ["needs_info", "تحتاج معلومات"]];
-    var srCats = [["pharmacy", "صيدلية"], ["bakery", "مخبز"], ["water", "نقطة مياه"], ["power", "نقطة شحن"], ["hospital", "عيادة"], ["storage", "مخزن"]];
-    for (var j = 0; j < 18; j++) {
-      var s2 = srStatuses[j % srStatuses.length];
-      var c2 = srCats[j % srCats.length];
-      serviceRequests.push({
-        id: "SR-" + (5000 - j), name: c2[1] + " رقم " + (j + 1), category: c2[0], categoryLabel: c2[1],
-        gov: ["غزة", "خانيونس", "رفح", "الوسطى", "الشمال"][j % 5], city: "منطقة تجريبية",
-        address: "عنوان تجريبي رقم " + (j + 1), phone: "0590000" + (200 + j), email: "",
-        desc: "بيانات تجريبية لطلب إضافة خدمة رقم " + (5000 - j) + ".",
-        workingNow: true, photos: [], priority: ["low", "medium", "high"][j % 3],
-        priorityLabel: ["منخفضة", "متوسطة", "عالية"][j % 3],
-        status: s2[0], statusLabel: s2[1],
-        submittedBy: "مستخدم تجريبي " + (j + 1), assignee: j % 4 === 0 ? null : "منى علي",
-        submittedAt: new Date(t - (j + 3) * h * 4).toISOString(),
-        history: [{ action: "submitted", note: "تم إرسال الطلب", by: "مستخدم تجريبي", at: new Date(t - (j + 3) * h * 4).toISOString() }]
-      });
-    }
-
     var activityLog = [
       { id: uid("ACT"), text: "تم قبول بلاغ إغلاق مؤقت لمخبز العودة", icon: "check", at: new Date(t - 40 * 60000).toISOString() },
       { id: uid("ACT"), text: "تسجيل مستخدم جديد: دلع سالم", icon: "user", at: new Date(t - 90 * 60000).toISOString() },
@@ -245,7 +168,41 @@
     if (!db.statusOverrides) db.statusOverrides = {};
     if (!db.notifications) db.notifications = [];
     if (!db.activityLog) db.activityLog = [];
+    if (purgeSeedJunk(db)) writeStore(db);
     return db;
+  }
+
+  // One-time (repeatable, harmless) cleanup: earlier demo builds seeded a big
+  // batch of placeholder "رقم N" / "بيانات تجريبية..." reports & requests just
+  // to populate admin table counts. If any of those were approved before,
+  // they'd leak onto the public site with a generic photo. This strips them
+  // out of every existing saved DB, not just newly-seeded ones.
+  function purgeSeedJunk(db) {
+    var reportSig = "بيانات تجريبية لبلاغ رقم";
+    var requestSig = "بيانات تجريبية لطلب إضافة خدمة رقم";
+    // explicit id-based purge for specific demo entries removed on request,
+    // even though their text didn't match the generic junk signature above
+    var removedRequestIds = { "SR-5021": true };
+    var removedDynamicIds = { "dyn-SR-5021": true };
+    var changed = false;
+
+    if (db.issueReports) {
+      var cleanReports = db.issueReports.filter(function (r) { return (r.description || "").indexOf(reportSig) === -1; });
+      if (cleanReports.length !== db.issueReports.length) { db.issueReports = cleanReports; changed = true; }
+    }
+    if (db.serviceRequests) {
+      var cleanRequests = db.serviceRequests.filter(function (r) {
+        return (r.desc || "").indexOf(requestSig) === -1 && !removedRequestIds[r.id];
+      });
+      if (cleanRequests.length !== db.serviceRequests.length) { db.serviceRequests = cleanRequests; changed = true; }
+    }
+    if (db.dynamicServices) {
+      var cleanDynamic = db.dynamicServices.filter(function (s) {
+        return (s.desc || "").indexOf(requestSig) === -1 && !removedDynamicIds[s.id];
+      });
+      if (cleanDynamic.length !== db.dynamicServices.length) { db.dynamicServices = cleanDynamic; changed = true; }
+    }
+    return changed;
   }
 
   function saveDB(db) {
@@ -257,9 +214,7 @@
     return getDB();
   }
 
-  /* ---------------------------------------------------------------------
-     Hashing helper shared with auth.js's approach (SHA-256 via WebCrypto)
-     --------------------------------------------------------------------- */
+
   function hashPassword(password) {
     if (window.crypto && window.crypto.subtle && window.TextEncoder) {
       return window.crypto.subtle.digest("SHA-256", new TextEncoder().encode(password)).then(function (buffer) {
