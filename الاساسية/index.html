@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>الرئيسية | وين الخدمة</title>
 <link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 </head>
 <body>
 
@@ -289,57 +291,13 @@
           <h3>الخريطة التفاعلية لقطاع غزة</h3>
           <a href="explore.html" aria-label="فتح الخريطة بالكامل">⤢</a>
         </div>
-        <p class="hint">اضغط على المحافظة لتصفية الخدمات، أو اضغط على الدبابيس لمشاهدة التفاصيل.</p>
+        <p class="hint">هذه هي نفس الخريطة الحقيقية لقطاع غزة — اضغط على أي علامة لمشاهدة تفاصيل الخدمة، أو افتحها بالحجم الكامل من ⤢.</p>
         <div class="map-svg-wrap">
           <div class="zoom-controls">
             <button data-zoom="in" aria-label="تكبير">+</button>
             <button data-zoom="out" aria-label="تصغير">−</button>
           </div>
-          <svg viewBox="0 0 260 330" data-map-svg style="width:100%;height:260px;transition:transform .2s;">
-            <!-- رفح -->
-            <path class="map-region" data-name="رفح"
-              d="M128 18 C146 18 166 25 176 38 C184 49 180 60 168 70
-                 L148 86 L116 78 L108 56 L116 34 Z"></path>
-            <!-- خانيونس -->
-            <path class="map-region" data-name="خانيونس"
-              d="M116 78 L148 86 L158 108 L151 137 L132 154 L104 147
-                 L91 127 L96 103 Z"></path>
-            <!-- الوسطى -->
-            <path class="map-region" data-name="الوسطى"
-              d="M91 127 L104 147 L132 154 L136 184 L127 207 L99 215
-                 L78 198 L76 171 L82 148 Z"></path>
-            <!-- غزة -->
-            <path class="map-region" data-name="غزة"
-              d="M78 198 L99 215 L127 207 L137 226 L130 252 L107 267
-                 L82 260 L68 238 L69 216 Z"></path>
-            <!-- الشمال -->
-            <path class="map-region" data-name="الشمال"
-              d="M69 216 L82 260 L107 267 L111 288 L98 309 L70 307
-                 L54 292 L56 268 L62 242 Z"></path>
-
-            <!-- أسماء المحافظات -->
-            <text x="145" y="55" text-anchor="middle" class="map-label">رفح</text>
-            <text x="125" y="116" text-anchor="middle" class="map-label">خانيونس</text>
-            <text x="104" y="177" text-anchor="middle" class="map-label">الوسطى</text>
-            <text x="103" y="237" text-anchor="middle" class="map-label">غزة</text>
-            <text x="82" y="285" text-anchor="middle" class="map-label">الشمال</text>
-
-            <!-- دبابيس الحالة -->
-            <circle class="map-pin" data-name="رفح" cx="160" cy="43" r="5" fill="#22c55e"></circle>
-            <circle class="map-pin" data-name="رفح" cx="132" cy="67" r="5" fill="#f59e0b"></circle>
-
-            <circle class="map-pin" data-name="خانيونس" cx="105" cy="100" r="5" fill="#f59e0b"></circle>
-            <circle class="map-pin" data-name="خانيونس" cx="142" cy="126" r="5" fill="#ef4444"></circle>
-
-            <circle class="map-pin" data-name="الوسطى" cx="83" cy="151" r="5" fill="#ef4444"></circle>
-            <circle class="map-pin" data-name="الوسطى" cx="119" cy="188" r="5" fill="#22c55e"></circle>
-
-            <circle class="map-pin" data-name="غزة" cx="80" cy="223" r="5" fill="#22c55e"></circle>
-            <circle class="map-pin" data-name="غزة" cx="113" cy="247" r="5" fill="#f59e0b"></circle>
-
-            <circle class="map-pin" data-name="الشمال" cx="67" cy="273" r="5" fill="#f59e0b"></circle>
-            <circle class="map-pin" data-name="الشمال" cx="92" cy="298" r="5" fill="#9ca3af"></circle>
-          </svg>
+          <div id="homeLeafletMap" style="width:100%;height:260px;border-radius:var(--radius-md);"></div>
         </div>
         <div class="map-legend">
           <p style="font-weight:700;">حالة الخدمة:</p>

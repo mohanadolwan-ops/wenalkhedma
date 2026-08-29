@@ -822,13 +822,252 @@
       submitBtn.classList.add('is-loading');
       submitBtn.disabled = true;
 
-      // Simulate network request / server-side audit trigger.
+      const nameInput = qs('#facility-name');
+      const catSelect = qs('#facility-category');
+      const govSelect = qs('#facility-gov');
+      const areaInput = qs('#facility-area');
+      const issueTypeSelect = qs('#issue-type');
+      const currentStateSelect = qs('#current-state');
+      const notesInput = qs('#notes');
+      const previewImg = qs('.upload-preview img');
+
+      const issueLabel = issueTypeSelect.options[issueTypeSelect.selectedIndex].textContent.trim();
+      const stateLabel = currentStateSelect.options[currentStateSelect.selectedIndex].textContent.trim();
+      const priorityMap = {
+        closed: ['high', 'عالية'], destroyed: ['high', 'عالية'],
+        partial: ['medium', 'متوسطة'], relocated: ['medium', 'متوسطة'], 'wrong-info': ['low', 'منخفضة']
+      };
+      const pr = priorityMap[issueTypeSelect.value] || ['medium', 'متوسطة'];
+      const photos = (previewImg && previewImg.src && previewImg.src.indexOf('data:') === 0) ? [previewImg.src] : [];
+
+      let report = null;
+      if (window.WinDB) {
+        report = window.WinDB.submitIssueReport({
+          serviceId: null,
+          serviceName: nameInput.value.trim(),
+          category: catSelect.value,
+          gov: govSelect.value,
+          city: areaInput.value.trim() || govSelect.value,
+          issueType: issueTypeSelect.value,
+          issueLabel: issueLabel,
+          description: 'الحالة المشاهدة الآن: ' + stateLabel + ' — ' + notesInput.value.trim(),
+          priority: pr[0],
+          priorityLabel: pr[1],
+          photos: photos
+        });
+      }
+
+      // Simulate the short "instant audit" delay the design promises.
       setTimeout(() => {
-        // Count a submitted report/update only after the form passes validation.
         incrementActivity(STORAGE_KEYS.reports, 1);
+        if (report) {
+          try {
+            sessionStorage.setItem('wask_last_report', JSON.stringify({ id: report.id, name: report.serviceName }));
+          } catch (err) { /* ignore storage errors */ }
+        }
         window.location.href = 'success.html';
       }, 1400);
     });
+  }
+
+  // --- "بلاغاتي" listing page (reports.html) ---
+  function bucketReportStatus(status) {
+    if (status === 'approved') return 'approved';
+    if (status === 'rejected') return 'rejected';
+    return 'pending'; // new / in_review / needs_info / escalated
+  }
+
+  function reportCardHTML(r) {
+    const bucket = bucketReportStatus(r.status);
+    const badge = bucket === 'approved'
+      ? '<span class="report-status approved">✓ تم الاعتماد والنشر</span>'
+      : bucket === 'rejected'
+        ? '<span class="report-status rejected">✕ تم الرفض</span>'
+        : '<span class="report-status pending">🕘 قيد المراجعة</span>';
+    const dateStr = new Date(r.submittedAt).toLocaleDateString('en-CA');
+    return `
+      <article class="report-card" data-status="${bucket}">
+        <div class="report-top">
+          <span class="report-id">#${r.id}</span>
+          ${badge}
+        </div>
+        <h4 class="report-title">${r.serviceName}</h4>
+        <span class="report-date">تاريخ التقديم: ${dateStr}</span>
+        <div class="report-body"><strong>بلاغ عن:</strong> ${r.issueLabel} — ${r.description}</div>
+        <a href="report-detail.html?id=${r.id}" class="report-footer-link"><span>فحص تفاصيل البلاغ والرد الميداني</span><span>←</span></a>
+      </article>`;
+  }
+
+  function renderMyReports() {
+    const grid = qs('#reportsGrid');
+    const tabsWrap = qs('#reportsTabs');
+    if (!grid || !tabsWrap) return;
+
+    if (!window.WinDB) {
+      tabsWrap.innerHTML = '';
+      grid.innerHTML = `<div class="reports-empty" style="color:#b52a25;">
+        ⚠️ تعذّر تحميل قاعدة البيانات المشتركة (win-db.js).<br>
+        تأكد أن مجلد "البلاغات" موضوع داخل مجلد المشروع الرئيسي، بجانب مجلدَي "الاساسية" و"admin"
+        وملف <b>win-db.js</b> مباشرة — وليس منفرداً في مجلد آخر، لأن هذا الملف مطلوب حتى تعمل الصفحة.
+      </div>`;
+      return;
+    }
+
+    const all = window.WinDB.myIssueReports()
+      .slice()
+      .sort((a, b) => new Date(b.submittedAt) - new Date(a.submittedAt));
+
+    const groups = {
+      all: all,
+      pending: all.filter((r) => bucketReportStatus(r.status) === 'pending'),
+      approved: all.filter((r) => bucketReportStatus(r.status) === 'approved'),
+      rejected: all.filter((r) => bucketReportStatus(r.status) === 'rejected')
+    };
+
+    const tabDefs = [
+      ['all', 'الكل', groups.all],
+      ['pending', 'قيد التدقيق', groups.pending],
+      ['approved', 'المعتمدة', groups.approved],
+      ['rejected', 'المرفوضة', groups.rejected]
+    ];
+
+    tabsWrap.innerHTML = tabDefs.map(([key, label, list], i) => (
+      `<button type="button" class="tab-btn${i === 0 ? ' active' : ''}" data-report-filter="${key}">${label} (${list.length})</button>`
+    )).join('');
+
+    function renderList(list) {
+      grid.innerHTML = list.length
+        ? list.map(reportCardHTML).join('')
+        : '<div class="reports-empty">لا توجد بلاغات في هذا التصنيف حتى الآن.</div>';
+    }
+
+    renderList(groups.all);
+
+    qsa('[data-report-filter]', tabsWrap).forEach((btn) => {
+      btn.addEventListener('click', () => {
+        qsa('[data-report-filter]', tabsWrap).forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        renderList(groups[btn.getAttribute('data-report-filter')]);
+      });
+    });
+  }
+
+  // --- تفاصيل البلاغ (report-detail.html) ---
+  function reportStatusBadgeHTML(r) {
+    const bucket = bucketReportStatus(r.status);
+    if (bucket === 'approved') return '<span class="report-status approved">✓ تم الاعتماد والنشر</span>';
+    if (bucket === 'rejected') return '<span class="report-status rejected">✕ تم الرفض</span>';
+    return '<span class="report-status pending">🕘 قيد المراجعة</span>';
+  }
+
+  function timelineItemHTML(h) {
+    const label = h.note || h.action || 'تحديث على البلاغ';
+    return `
+      <div class="t-item">
+        <span class="t-dot"></span>
+        <div>
+          <div class="t-txt">${label} — <b>${h.by}</b></div>
+          <div class="t-time">${window.WinDB.timeAgo(h.at)}</div>
+        </div>
+      </div>`;
+  }
+
+  function renderReportDetail() {
+    const root = qs('#detailRoot');
+    if (!root) return;
+
+    if (!window.WinDB) {
+      root.innerHTML = `<div class="detail-not-found" style="color:#b52a25;">
+        ⚠️ تعذّر تحميل قاعدة البيانات المشتركة (win-db.js).<br>
+        تأكد أن مجلد "البلاغات" موضوع داخل مجلد المشروع الرئيسي، بجانب ملف <b>win-db.js</b> مباشرة.
+      </div>`;
+      return;
+    }
+
+    const id = new URLSearchParams(window.location.search).get('id');
+    const report = id ? window.WinDB.getIssueReport(id) : null;
+    const user = window.WainAuth && window.WainAuth.getCurrentUser ? window.WainAuth.getCurrentUser() : null;
+    const owns = report && (!user || report.submittedBy === user.name);
+
+    if (!report || !owns) {
+      root.innerHTML = `
+        <div class="detail-not-found">
+          لم يتم العثور على هذا البلاغ، أو أنه غير مرتبط بحسابك.
+          <br><a href="reports.html">العودة لقائمة بلاغاتي</a>
+        </div>`;
+      return;
+    }
+
+    const categoryLabels = {
+      pharmacy: 'صيدلية', hospital: 'عيادة / مستشفى', bakery: 'مخبز',
+      water: 'نقطة مياه', power: 'نقطة شحن كهرباء', storage: 'مخزن', general: 'خدمة عامة'
+    };
+
+    root.innerHTML = `
+      <div class="detail-hero">
+        <div>
+          <span class="detail-hero-id">#${report.id}</span>
+          <h1>${report.serviceName}</h1>
+          <div class="detail-hero-meta">
+            <span>🏷️ ${categoryLabels[report.category] || report.category}</span>
+            <span>📍 ${report.gov}${report.city && report.city !== report.gov ? ' - ' + report.city : ''}</span>
+          </div>
+        </div>
+        ${reportStatusBadgeHTML(report)}
+      </div>
+
+      <div class="detail-grid">
+        <div>
+          <div class="detail-card">
+            <h3>تفاصيل بلاغك</h3>
+            <div class="detail-row"><span>نوع البلاغ</span><span>${report.issueLabel}</span></div>
+            <div class="detail-row"><span>الأولوية</span><span>${report.priorityLabel}</span></div>
+            <div class="detail-row"><span>تاريخ التقديم</span><span>${window.WinDB.fmtDate(report.submittedAt)}</span></div>
+            <div class="detail-row"><span>المسؤول المُسند</span><span>${report.assignee || 'لم يُسند بعد'}</span></div>
+
+            <p style="margin:16px 0 6px;font-size:13px;font-weight:700;color:var(--color-text);">ملاحظاتك الميدانية:</p>
+            <div class="detail-note-box">${report.description}</div>
+
+            ${report.photos && report.photos.length
+              ? `<div class="photo-strip">${report.photos.map((p) => `<img src="${p}" alt="دليل مرفق">`).join('')}</div>`
+              : ''}
+          </div>
+        </div>
+
+        <div>
+          <div class="detail-card">
+            <h3>الرد الميداني وسجل الحالة</h3>
+            <div class="timeline">
+              ${(report.history || []).map(timelineItemHTML).join('')}
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  // --- Success page (success.html) ---
+  function initSuccessPage() {
+    const titleEl = qs('.success-title');
+    const textEl = qs('.success-text');
+    const refEl = qs('.reference-value');
+    const ctaEl = qs('.success-card .btn-primary');
+    if (!titleEl || !refEl) return;
+
+    let last = null;
+    try { last = JSON.parse(sessionStorage.getItem('wask_last_report') || 'null'); } catch (err) { last = null; }
+
+    if (last && last.id) {
+      if (textEl) {
+        textEl.innerHTML = `شكرا لمساهمتك الوطنية والمسؤولة في مراجعة حالة <strong>${last.name}</strong>. بلاغك يساعد فرق العمليات على التوجه للمراكز المتاحة مباشرة وتفادي مشقة التنقل غير المجدية.`;
+      }
+      refEl.textContent = last.id;
+      sessionStorage.removeItem('wask_last_report');
+    }
+
+    if (ctaEl) {
+      ctaEl.textContent = 'عرض بلاغاتي';
+      ctaEl.setAttribute('href', 'reports.html');
+    }
   }
 
   // --- Profile edit page ---
@@ -926,7 +1165,18 @@
   /* ------------------------------------------------------------------
      Init on DOM ready
      ------------------------------------------------------------------ */
+  function warnIfWinDBMissing() {
+    if (window.WinDB) return;
+    const banner = document.createElement('div');
+    banner.textContent = '⚠️ تعذّر تحميل win-db.js — تأكد أن مجلد "البلاغات" داخل مجلد المشروع الرئيسي وليس منفرداً.';
+    banner.style.cssText = 'position:sticky;top:0;z-index:9999;background:#d3352f;color:#fff;text-align:center;' +
+      'font-size:13px;font-weight:700;padding:8px 14px;';
+    document.body.prepend(banner);
+    console.error('WinDB (win-db.js) لم يتم تحميله. تحقق من مسار "../win-db.js" بالنسبة لهذه الصفحة.');
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
+    warnIfWinDBMissing();
     initHeader();
     initModals();
     initPasswordToggles();
@@ -941,5 +1191,8 @@
     initReportForm();
     initProfileEditForm();
     initSecurityForm();
+    renderMyReports();
+    renderReportDetail();
+    initSuccessPage();
   });
 })();

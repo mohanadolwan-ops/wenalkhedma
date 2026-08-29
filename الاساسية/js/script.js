@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initManualLocationCities();
   initRealLocationButtons();
   initLeafletMap();
+  initHomeMap();
   initExploreFilters();
   initServiceDeepLink();
   initCategoryLinksFromQuery();
@@ -1189,6 +1190,57 @@ function initLeafletMap(){
     });
     return sorted;
   };
+
+  setTimeout(() => map.invalidateSize(), 200);
+}
+
+/* =========================================================
+   21b. Homepage mini-map — the SAME real Leaflet/OpenStreetMap
+   map used on the "استكشاف الخدمات" page, sized to fit the
+   homepage's preview card (kept at height:260px, unchanged).
+   ========================================================= */
+function initHomeMap(){
+  const mapEl = document.getElementById('homeLeafletMap');
+  if(!mapEl || typeof L === 'undefined') return;
+
+  const map = L.map(mapEl, { zoomControl: false }).setView([31.43, 34.38], 9.6);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 18,
+    attribution: '&copy; OpenStreetMap contributors'
+  }).addTo(map);
+
+  SERVICES.forEach(service => {
+    const marker = L.circleMarker([service.lat, service.lng], {
+      radius: 7,
+      color: '#fff',
+      weight: 2,
+      fillColor: STATUS_COLORS[service.status] || '#9ca3af',
+      fillOpacity: 0.95
+    });
+
+    const popupHtml = `
+      <div style="font-family:inherit;min-width:170px;">
+        <strong style="display:block;margin-bottom:4px;">${service.title}</strong>
+        <span style="display:block;font-size:12px;color:#555;margin-bottom:2px;">${CATEGORY_LABELS[service.category] || service.category}</span>
+        <span style="display:block;font-size:12px;color:${STATUS_COLORS[service.status]};margin-bottom:4px;">${STATUS_LABELS[service.status] || service.status}</span>
+        <a href="explore.html?service=${service.id}" style="display:block;font-size:12px;color:#16A34A;font-weight:700;margin-top:4px;">عرض التفاصيل ←</a>
+      </div>`;
+    marker.bindPopup(popupHtml);
+    marker.addTo(map);
+  });
+
+  // reuse the same +/- buttons already sitting in this card's markup
+  const wrap = mapEl.closest('.map-svg-wrap');
+  if(wrap){
+    wrap.querySelectorAll('[data-zoom]').forEach(btn => {
+      if(btn.dataset.homeMapBound) return;
+      btn.dataset.homeMapBound = '1';
+      btn.addEventListener('click', () => {
+        if(btn.getAttribute('data-zoom') === 'in') map.zoomIn();
+        else map.zoomOut();
+      });
+    });
+  }
 
   setTimeout(() => map.invalidateSize(), 200);
 }

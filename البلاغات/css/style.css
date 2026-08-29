@@ -534,12 +534,15 @@ textarea:focus-visible,
   background: var(--color-bg);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
-  padding: 16px 18px;
+  padding: 18px 18px 4px;
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 14px;
-  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.status-card > .status-card-label {
+  margin-bottom: -6px;
 }
 
 .status-card-label {
@@ -1653,4 +1656,326 @@ textarea.field-control {
 
 .header-actions {
   order: 3;
+}
+
+/* -------------------------------------------------------------------------
+   13. "بلاغاتي" — my reports listing page (reports.html)
+   ------------------------------------------------------------------------- */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--color-text-secondary);
+  margin: 22px 0 14px;
+}
+
+.back-link:hover {
+  color: var(--color-primary-darker);
+}
+
+.reports-toolbar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+  padding: 22px 26px 0;
+}
+
+.reports-toolbar .panel-title {
+  margin-bottom: 4px;
+}
+
+.new-report-btn {
+  white-space: nowrap;
+}
+
+.reports-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 18px 26px 0;
+}
+
+.reports-tabs .tab-btn {
+  background: var(--color-white);
+  border: 1.5px solid var(--color-border);
+  border-radius: var(--radius-full);
+  padding: 8px 16px;
+  color: var(--color-text-secondary);
+}
+
+.reports-tabs .tab-btn.active {
+  background: var(--color-primary);
+  border-color: var(--color-primary);
+  color: var(--color-white);
+}
+
+.reports-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 16px;
+  padding: 20px 26px 26px;
+}
+
+.report-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-sm);
+}
+
+.report-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.report-id {
+  font-size: 11.5px;
+  color: var(--color-text-faint);
+  font-weight: 700;
+}
+
+.report-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-full);
+  white-space: nowrap;
+}
+
+.report-status.pending {
+  background: var(--color-amber-bg);
+  color: var(--color-amber-text);
+}
+
+.report-status.approved {
+  background: var(--color-primary-light);
+  color: var(--color-primary-darker);
+}
+
+.report-status.rejected {
+  background: var(--color-red-bg);
+  color: var(--color-red-dark);
+}
+
+.report-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  margin: 0 0 6px;
+}
+
+.report-date {
+  font-size: 12px;
+  color: var(--color-text-faint);
+  display: block;
+  margin-bottom: 10px;
+}
+
+.report-body {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: 10px 12px;
+  line-height: 1.6;
+}
+
+.report-body strong {
+  color: var(--color-text);
+}
+
+.report-footer-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px dashed var(--color-border);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-primary-darker);
+}
+
+.reports-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 50px 20px;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+/* -------------------------------------------------------------------------
+   14. تفاصيل البلاغ — single report detail page (report-detail.html)
+   ------------------------------------------------------------------------- */
+.detail-hero {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 22px 26px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.detail-hero-id {
+  font-size: 12px;
+  color: var(--color-text-faint);
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: block;
+}
+
+.detail-hero h1 {
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.detail-hero-meta {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.detail-hero-meta span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 16px;
+  align-items: start;
+}
+
+@media (max-width: 860px) {
+  .detail-grid { grid-template-columns: 1fr; }
+}
+
+.detail-card {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 20px 22px;
+  margin-bottom: 16px;
+}
+
+.detail-card h3 {
+  font-size: 15px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 13.5px;
+  padding: 9px 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.detail-row:last-child { border-bottom: none; }
+
+.detail-row span:first-child {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
+}
+
+.detail-row span:last-child {
+  font-weight: 700;
+  text-align: left;
+}
+
+.detail-note-box {
+  font-size: 13.5px;
+  line-height: 1.7;
+  background: var(--color-bg);
+  border-radius: var(--radius-md);
+  padding: 14px 16px;
+  color: var(--color-text-secondary);
+}
+
+.photo-strip {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.photo-strip img {
+  width: 120px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.timeline {
+  display: flex;
+  flex-direction: column;
+}
+
+.timeline .t-item {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px dashed var(--color-border);
+}
+
+.timeline .t-item:last-child { border-bottom: none; }
+
+.timeline .t-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--color-primary);
+  margin-top: 6px;
+  flex-shrink: 0;
+}
+
+.timeline .t-txt {
+  font-size: 13.5px;
+  color: var(--color-text);
+}
+
+.timeline .t-txt b { color: var(--color-primary-darker); }
+
+.timeline .t-time {
+  font-size: 11.5px;
+  color: var(--color-text-faint);
+  margin-top: 2px;
+}
+
+.detail-not-found {
+  background: var(--color-white);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 14px;
+}
+
+.detail-not-found a {
+  color: var(--color-primary-darker);
+  font-weight: 700;
 }

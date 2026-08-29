@@ -184,6 +184,9 @@
     // even though their text didn't match the generic junk signature above
     var removedRequestIds = { "SR-5021": true };
     var removedDynamicIds = { "dyn-SR-5021": true };
+    // junk test submissions removed by exact name match (typed by a real
+    // person testing the "add service" form with placeholder/garbage data)
+    var junkNames = { "Mohaned Olwan": true };
     var changed = false;
 
     if (db.issueReports) {
@@ -192,13 +195,13 @@
     }
     if (db.serviceRequests) {
       var cleanRequests = db.serviceRequests.filter(function (r) {
-        return (r.desc || "").indexOf(requestSig) === -1 && !removedRequestIds[r.id];
+        return (r.desc || "").indexOf(requestSig) === -1 && !removedRequestIds[r.id] && !junkNames[r.name];
       });
       if (cleanRequests.length !== db.serviceRequests.length) { db.serviceRequests = cleanRequests; changed = true; }
     }
     if (db.dynamicServices) {
       var cleanDynamic = db.dynamicServices.filter(function (s) {
-        return (s.desc || "").indexOf(requestSig) === -1 && !removedDynamicIds[s.id];
+        return (s.desc || "").indexOf(requestSig) === -1 && !removedDynamicIds[s.id] && !junkNames[s.title];
       });
       if (cleanDynamic.length !== db.dynamicServices.length) { db.dynamicServices = cleanDynamic; changed = true; }
     }

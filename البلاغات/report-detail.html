@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>تم تقديم البلاغ بنجاح - وين الخدمة</title>
+<title>تفاصيل البلاغ - وين الخدمة</title>
 <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -25,7 +25,7 @@
         </button>
         <div class="user-menu">
           <button class="user-menu-trigger" aria-haspopup="true" aria-expanded="false" type="button">
-            <img class="avatar" src="logo2.png" alt="صورة المستخدم أحمد محمود">
+            <img class="avatar" src="logo2.png" alt="صورة المستخدم">
             <svg class="chevron" width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           </button>
           <div class="user-dropdown" role="menu">
@@ -51,7 +51,7 @@
       <a href="../الاساسية/explore.html">استكشاف الخدمات</a>
       <a href="../الاساسية/assistant.html">المساعد الذكي</a>
       <a href="../step/step1.html">خدماتي</a>
-      <a href="reports.html">بلاغاتي</a> 
+      <a href="reports.html" class="active">بلاغاتي</a>
     </nav>
 
       <div class="header-brand">
@@ -61,31 +61,19 @@
   </header>
 
   <!-- ============================= MAIN ============================= -->
-  <main class="success-wrap">
-    <div class="success-card">
-      <div class="success-icon">
-        <svg width="30" height="30" viewBox="0 0 24 24" fill="none"><path d="M20 6L9 17l-5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </div>
-      <h1 class="success-title">تم تقديم البلاغ بنجاح وجاري التدقيق</h1>
-      <p class="success-text">
-        شكرا لمساهمتك الوطنية والمسؤولة في مراجعة حالة <strong>صيدلية الهدى</strong>.
-        بلاغك يساعد فرق العمليات على التوجه للمراكز المتاحة مباشرة وتفادي مشقة التنقل غير المجدية.
-      </p>
+  <main class="main-content">
+    <div class="container">
 
-      <div class="reference-box">
-        <p class="reference-label">الرقم المرجعي للبلاغ الميداني</p>
-        <p class="reference-value">REP-38574-GZ</p>
-        <span class="reference-tag">
-          <span class="pulse-dot"></span>
-          قيد المراجعة الفورية (تستغرق عادة 15 دقيقة)
-        </span>
-      </div>
+      <a href="reports.html" class="back-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        العودة لبلاغاتي
+      </a>
 
-      <a href="index.html" class="btn btn-primary btn-block">العودة لتفاصيل الخدمة</a>
+      <div id="detailRoot"></div>
+
     </div>
   </main>
-
-
+</div>
 
 <script src="../win-db.js"></script>
 <script src="../auth.js"></script>

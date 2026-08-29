@@ -51,7 +51,7 @@
       <a href="../الاساسية/explore.html">استكشاف الخدمات</a>
       <a href="../الاساسية/assistant.html">المساعد الذكي</a>
       <a href="../step/step1.html">خدماتي</a>
-      <a href="index.html"  class="active">بلاغاتي</a> 
+      <a href="reports.html" class="active">بلاغاتي</a> 
     </nav>
 
       <div class="header-brand">
@@ -75,22 +75,58 @@
           <p class="panel-subtitle">تساهم هذه البلاغات في الحفاظ على صحة المعلومات للأهالي والنازحين مباشرة.</p>
         </div>
 
-        <!-- Currently registered facility status -->
+        <!-- Facility being reported: the user types it in themselves -->
         <div class="status-card">
-          <div>
-            <p class="status-card-label">الحالة المسجلة حاليا:</p>
-            <p class="status-card-name">صيدلية الهدى</p>
-            <p class="status-card-location">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.3" stroke="currentColor" stroke-width="1.8"/></svg>
-              غزة - حي الزيتون
+          <p class="status-card-label">عن أي مرفق أو خدمة تريد تقديم هذا البلاغ؟</p>
+
+          <div class="field full">
+            <label class="field-label" for="facility-name">اسم المرفق أو الخدمة <span class="required">*</span></label>
+            <input type="text" class="field-control" id="facility-name" required minlength="3"
+                   placeholder="مثال: صيدلية الهدى، مخبز الأمل، نقطة مياه حي الزيتون...">
+            <p class="field-error-msg">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+              يرجى كتابة اسم المرفق (3 أحرف على الأقل).
             </p>
           </div>
-          <div class="status-tag">
-            <span class="status-type">صيدلية</span>
-            <div class="status-dot-row">
-              <span class="dot"></span>
-              متوفر / مفتوح
+
+          <div class="field-row">
+            <div class="field">
+              <label class="field-label" for="facility-category">تصنيف الخدمة <span class="required">*</span></label>
+              <select class="field-control" id="facility-category" required>
+                <option value="" disabled selected>اختر التصنيف</option>
+                <option value="pharmacy">صيدلية</option>
+                <option value="hospital">عيادة / مستشفى</option>
+                <option value="bakery">مخبز</option>
+                <option value="water">نقطة مياه</option>
+                <option value="power">نقطة شحن كهرباء</option>
+                <option value="storage">مخزن</option>
+              </select>
+              <p class="field-error-msg">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                يرجى اختيار التصنيف.
+              </p>
             </div>
+
+            <div class="field">
+              <label class="field-label" for="facility-gov">المحافظة <span class="required">*</span></label>
+              <select class="field-control" id="facility-gov" required>
+                <option value="" disabled selected>اختر المحافظة</option>
+                <option value="الشمال">الشمال</option>
+                <option value="غزة">غزة</option>
+                <option value="الوسطى">الوسطى</option>
+                <option value="خانيونس">خانيونس</option>
+                <option value="رفح">رفح</option>
+              </select>
+              <p class="field-error-msg">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 8v5M12 16h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+                يرجى اختيار المحافظة.
+              </p>
+            </div>
+          </div>
+
+          <div class="field full">
+            <label class="field-label" for="facility-area">الموقع التفصيلي (اختياري)</label>
+            <input type="text" class="field-control" id="facility-area" placeholder="مثال: حي الزيتون - بجانب مسجد...">
           </div>
         </div>
 
