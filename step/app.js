@@ -104,13 +104,52 @@
 
   /* ------------------------------------------------------------
      نقطة الاتصال بالـ Backend لاحقاً (لا يوجد Backend الآن)
+     ------------------------------------------------------------
+     مؤقتاً (لحد ما يصير في Backend حقيقي)، نحفظ الطلب في نفس
+     قاعدة البيانات المحلية (WinDB / localStorage) يلي بتستخدمها
+     صفحة "خدماتي المضافة" (my-services.html) ولوحة تحكم الأدمن،
+     حتى تظهر أي خدمة يضيفها المستخدم فوراً بدل ما تروح بلا أثر.
      ------------------------------------------------------------ */
+  var SUBMIT_CATEGORY_LABELS = {
+    pharmacy: 'صيدلية', bakery: 'مخبز', water: 'نقطة مياه',
+    power: 'نقطة شحن كهرباء', hospital: 'عيادة / مستشفى', storage: 'مركز توزيع مساعدات'
+  };
+  var SUBMIT_GOV_LABELS = {
+    gaza: 'غزة', 'north-gaza': 'شمال غزة', 'deir-albalah': 'دير البلح',
+    'khan-younis': 'خان يونس', rafah: 'رفح'
+  };
+
   async function submitService(serviceData) {
     // TODO: Connect to Backend API -> POST /api/services
-    // Backend team: replace this stub with a real fetch() call that
-    // sends `serviceData` (see shape built in initReviewStep below).
+    // Backend team: replace the WinDB call below with a real fetch()
+    // call that sends `serviceData` (see shape built in initReviewStep).
     console.log('submitService() — serviceData ready for Backend:', serviceData);
-    return { ok: true, id: null };
+
+    if (typeof window.WinDB === 'undefined' || typeof window.WinDB.submitServiceRequest !== 'function') {
+      console.warn('submitService(): WinDB غير متوفر بهذه الصفحة — لم يتم حفظ الطلب.');
+      return { ok: true, id: null };
+    }
+
+    try {
+      var address = (serviceData.district ? serviceData.district + ' - ' : '') + (serviceData.address || '');
+      var record = window.WinDB.submitServiceRequest({
+        name: serviceData.name || '',
+        category: serviceData.category || '',
+        categoryLabel: SUBMIT_CATEGORY_LABELS[serviceData.category] || serviceData.category || '',
+        gov: SUBMIT_GOV_LABELS[serviceData.governorate] || serviceData.governorate || '',
+        city: serviceData.city || '',
+        address: address,
+        phone: serviceData.contactPhone || '',
+        email: '',
+        desc: serviceData.description || '',
+        workingNow: serviceData.status === 'open',
+        photos: serviceData.photos || []
+      });
+      return { ok: true, id: record ? record.id : null };
+    } catch (err) {
+      console.error('submitService(): فشل حفظ الطلب في WinDB:', err);
+      return { ok: false, id: null };
+    }
   }
   window.submitService = submitService;
 
